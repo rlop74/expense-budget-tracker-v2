@@ -14,11 +14,7 @@ import {
     Moon,
 } from "lucide-react";
 
-export const Sidebar = ({ showSidebar, setShowSidebar }) => {
-    const [theme, setTheme] = useState(
-        localStorage.getItem("theme") || <Sun />
-    );
-
+export const Sidebar = ({ showSidebar, setShowSidebar, theme, setTheme }) => {
     const menuItems = [
         { icon: <LayoutDashboard />, name: "Dashboard" },
         { icon: <ArrowLeftRight />, name: "Transactions" },
@@ -34,7 +30,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar }) => {
     return (
         <div
             className={`flex flex-col justify-between p-5 list-none bg-violet-500/30 transition-all duration-300 ease-in-out ${
-                showSidebar ? " w-[15%] translate-x-0" : "w-0 -translate-x-50"
+                showSidebar ? "w-[15%] translate-x-0" : "w-0 -translate-x-50"
             }`}
         >
             <div className="flex flex-col text-m w-[100%] gap-1">
@@ -70,11 +66,14 @@ export const Sidebar = ({ showSidebar, setShowSidebar }) => {
                     {themeItems.map((themeItem) => {
                         return (
                             <button
-                                className={`rounded-full p-3 ${
-                                    theme === themeItem
+                                className={`rounded-full p-3 transition-all duration-300 ease-in-out ${
+                                    theme === themeItem.type.displayName
                                         ? "bg-violet-500/30"
                                         : ""
                                 }`}
+                                onClick={() =>
+                                    setTheme(themeItem.type.displayName)
+                                }
                             >
                                 {themeItem}
                             </button>

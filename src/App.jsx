@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 
 import { Sidebar } from "./components/Sidebar";
@@ -23,12 +23,21 @@ function App() {
     const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
     const [activePage, setActivePage] = useState("Dashboard");
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") || "Sun"
+    );
+
+    useEffect(() => {
+        localStorage.setItem("theme", theme)
+    }, [theme])
 
     return (
-        <div className="flex h-screen">
+        <div className={`flex h-screen ${theme === "Moon" ? "bg-black/90 text-white" : ""}`}>
             <Sidebar
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
+                theme={theme}
+                setTheme={setTheme}
             />
             <div className="flex-1">
                 <Header
