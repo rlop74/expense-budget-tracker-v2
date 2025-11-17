@@ -6,8 +6,8 @@ export const Header = ({
     userLastName,
     userEmail,
     userImg,
-    setToggleSidebar,
-    toggleSidebar,
+    setShowSidebar,
+    showSidebar,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -15,10 +15,10 @@ export const Header = ({
         <>
             <div className="inline">
                 <button
-                    onClick={() => setToggleSidebar(!toggleSidebar)}
+                    onClick={() => setShowSidebar(!showSidebar)}
                     className="p-1 bg-violet-500/30 rounded-br-xl"
                 >
-                    { toggleSidebar ? <PanelLeftClose /> : <PanelLeftOpen /> }
+                    { showSidebar ? <PanelLeftClose /> : <PanelLeftOpen /> }
                 </button>
             </div>
             <div className="flex justify-between pl-5 pr-5">

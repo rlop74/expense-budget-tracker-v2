@@ -20,15 +20,15 @@ function App() {
     const [income, setIncome] = useState(0);
     const [totalExpense, setTotalExpense] = useState(0);
     const [totalSavings, setTotalSavings] = useState(0);
-    const [toggleSidebar, setToggleSidebar] = useState(true);
+    const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
     const [activePage, setActivePage] = useState("Dashboard");
 
     return (
         <div className="flex h-screen">
             <Sidebar
-                toggleSidebar={toggleSidebar}
-                setToggleSidebar={setToggleSidebar}
+                showSidebar={showSidebar}
+                setShowSidebar={setShowSidebar}
             />
             <div className="flex-1">
                 <Header
@@ -36,8 +36,8 @@ function App() {
                     userLastName={userLastName}
                     userEmail={userEmail}
                     userImg={userImg}
-                    setToggleSidebar={setToggleSidebar}
-                    toggleSidebar={toggleSidebar}
+                    setShowSidebar={setShowSidebar}
+                    showSidebar={showSidebar}
                 />
 
                 <div className="flex justify-end pr-7">
