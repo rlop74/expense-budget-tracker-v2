@@ -6,7 +6,7 @@ import { Header } from "./components/Header";
 import { SmallCard } from "./components/SmallCard";
 import { MediumCard } from "./components/MediumCard";
 import { LargeCard } from "./components/LargeCard";
-import { CustomDialog } from "./components/CustomDialog"
+import { CustomDialog } from "./components/CustomDialog";
 
 function App() {
     const [userFirstName, setUserFirstName] = useState("Russel");
@@ -18,21 +18,25 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [totalBalance, setTotalBalance] = useState(0);
     const [income, setIncome] = useState(0);
-    const [totalExpense, setTotalExpense] = useState(0);
+    let [totalExpense, setTotalExpense] = useState(0);
+    let [expenseAmount, setExpenseAmount] = useState(0);
+    const [expenseName, setExpenseName] = useState("");
     const [totalSavings, setTotalSavings] = useState(0);
     const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
     const [activePage, setActivePage] = useState("Dashboard");
-    const [theme, setTheme] = useState(
-        localStorage.getItem("theme") || "Sun"
-    );
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "Sun");
 
     useEffect(() => {
-        localStorage.setItem("theme", theme)
-    }, [theme])
+        localStorage.setItem("theme", theme);
+    }, [theme]);
 
     return (
-        <div className={`flex h-screen ${theme === "Moon" ? "bg-black/90 text-white" : ""}`}>
+        <div
+            className={`flex h-screen ${
+                theme === "Moon" ? "bg-black/90 text-white" : ""
+            }`}
+        >
             <Sidebar
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
@@ -59,7 +63,12 @@ function App() {
                     </button>
                 </div>
 
-                <CustomDialog open={open} setOpen={setOpen} dialogTitle="Add Expense" dialog="Enter expense"/>
+                <CustomDialog
+                    open={open}
+                    setOpen={setOpen}
+                    dialogTitle="Add Expense"
+                    dialog="Enter expense"
+                />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">
                     <SmallCard title="Total balance" amount={totalBalance} />
