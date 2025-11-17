@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+/* .grid-container {
+    display: grid;
+    grid-template-areas:
+        "balance expense income savings"
+        "moneyFlow moneyFlow moneyFlow budget"
+        "transactions transactions transactions savingsGoal";
+} */
+
+button {
+    /* border: 1px solid #e1e1e1; */
+    /* border-radius: 30%; */
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgba(151, 26, 246, 0.5);
+    color: white;
+}
