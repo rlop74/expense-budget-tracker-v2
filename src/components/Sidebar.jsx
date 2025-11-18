@@ -42,10 +42,10 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme, setTheme }) => {
     return (
         <>
             <div
-                className={`flex flex-col justify-between p-5 list-none bg-violet-500/30 transition-all duration-300 ease-in-out ${
+                className={`flex flex-col justify-between list-none bg-violet-500/30 transition-all duration-300 ease-in-out ${
                     showSidebar
-                        ? "w-[15%] translate-x-0"
-                        : "w-0 -translate-x-50"
+                        ? "w-[12%] translate-x-0 p-5"
+                        : "w-0 -translate-x-50 p-0"
                 }`}
             >
                 <div className="flex flex-col text-m w-[100%] gap-1">
