@@ -18,8 +18,8 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [totalBalance, setTotalBalance] = useState(0);
     const [income, setIncome] = useState(0);
-    let [totalExpense, setTotalExpense] = useState(0);
-    let [expenseAmount, setExpenseAmount] = useState(0);
+    const [totalExpense, setTotalExpense] = useState(0);
+    // const [expenseAmount, setExpenseAmount] = useState(0);
     const [expenseName, setExpenseName] = useState("");
     const [totalSavings, setTotalSavings] = useState(0);
     const [showSidebar, setShowSidebar] = useState(true);
@@ -27,9 +27,17 @@ function App() {
     const [activePage, setActivePage] = useState("Dashboard");
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "Sun");
 
+    // const getTotalExpense = () => {
+    //     setTotalExpense((expense) => expense + parseFloat(expenseAmount));
+    // }
+
+    // useEffect(() => {
+    //     getTotalExpense();
+    // }, [expenseAmount]);
+
     useEffect(() => {
         localStorage.setItem("theme", theme);
-    }, [theme]);
+    }, [theme])
 
     return (
         <div
@@ -68,6 +76,7 @@ function App() {
                     setOpen={setOpen}
                     dialogTitle="Add Expense"
                     dialog="Enter expense"
+                    setTotalExpense={setTotalExpense}
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">

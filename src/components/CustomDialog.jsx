@@ -4,9 +4,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import { useState } from "react";
 
-export const CustomDialog = ({ open, setOpen, dialogTitle, dialog }) => {
+export const CustomDialog = ({ open, setOpen, dialogTitle, dialog, setTotalExpense }) => {
     // const inputItems = ["amount", "name"];
+    const [amount, setAmount] = useState(0);
+    const [name, setName] = useState("");
 
     return (
         <Dialog
@@ -28,17 +31,27 @@ export const CustomDialog = ({ open, setOpen, dialogTitle, dialog }) => {
                         type="number"
                         placeholder={`${dialog} amount`}
                         className="border-1 p-5 rounded-full"
+                        value={amount}
+                        onChange={(event) => setAmount(event.target.value)}
                     />
                     <input
                         type="text"
                         placeholder={`${dialog} name`}
                         className="border-1 p-5 rounded-full"
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
                     />
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => setOpen(false)}>Cancel</Button>
-                <Button onClick={() => setOpen(false)} autoFocus>
+                <Button
+                    onClick={() => {
+                        setTotalExpense((prev) => prev + parseFloat(amount));
+                        setOpen(false);
+                    }}
+                    autoFocus
+                >
                     Confirm
                 </Button>
             </DialogActions>
