@@ -1,12 +1,29 @@
 import { Plus } from "lucide-react";
 
+import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header";
 import { SmallCard } from "../components/SmallCard";
 import { MediumCard } from "../components/MediumCard";
 import { LargeCard } from "../components/LargeCard";
 import { CustomDialog } from "../components/CustomDialog";
 
-export const Dashboard = () => {
+export const Dashboard = ({
+    showSidebar,
+    setShowSidebar,
+    theme,
+    setTheme,
+    userFirstName,
+    userLastName,
+    userEmail,
+    userImg,
+    open,
+    setOpen,
+    setTotalExpense,
+    totalBalance,
+    income,
+    totalExpense,
+    totalSavings,
+}) => {
     return (
         <>
             <div className="flex-1">
@@ -34,14 +51,13 @@ export const Dashboard = () => {
                     setOpen={setOpen}
                     dialogTitle="Add Expense"
                     dialog="Enter expense"
-                    expenseAmount={expenseAmount}
-                    setExpenseAmount={setExpenseAmount}
+                    setTotalExpense={setTotalExpense}
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">
                     <SmallCard title="Total balance" amount={totalBalance} />
                     <SmallCard title="Income" amount={income} />
-                    <SmallCard title="Total Expenses" amount={totalExpense} />
+                    <SmallCard title="Expense" amount={totalExpense} />
                     <SmallCard title="Total Savings" amount={totalSavings} />
 
                     <LargeCard title="Money Flow" />

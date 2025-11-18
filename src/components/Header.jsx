@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Bell, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { Search, Bell } from "lucide-react";
 
 export const Header = ({
     userFirstName,
@@ -13,14 +13,6 @@ export const Header = ({
 
     return (
         <>
-            <div className="inline">
-                <button
-                    onClick={() => setShowSidebar(!showSidebar)}
-                    className="p-1 bg-violet-500/30 rounded-br-xl"
-                >
-                    { showSidebar ? <PanelLeftClose /> : <PanelLeftOpen /> }
-                </button>
-            </div>
             <div className="flex justify-between pl-5 pr-5">
                 <div className="">
                     <h1 className="text-[40px]">

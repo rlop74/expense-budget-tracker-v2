@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Plus } from "lucide-react";
+import { BrowserRouter, Routes, Route } from "react-router";
 
-import { Sidebar } from "./components/Sidebar";
-import { Header } from "./components/Header";
-import { SmallCard } from "./components/SmallCard";
-import { MediumCard } from "./components/MediumCard";
-import { LargeCard } from "./components/LargeCard";
-import { CustomDialog } from "./components/CustomDialog";
+import { DefaultLayout } from "./layout/DefaultLayout";
+import { Dashboard } from "./pages/Dashboard";
+import { Transactions } from "./pages/Transactions";
+import { Wallet } from "./pages/Wallet";
+import { Goals } from "./pages/Goals";
+import { Budget } from "./pages/Budget";
+import { Analytics } from "./pages/Analytics";
+import { Settings } from "./pages/Settings";
 
 function App() {
     const [userFirstName, setUserFirstName] = useState("Russel");
@@ -27,71 +29,54 @@ function App() {
     const [activePage, setActivePage] = useState("Dashboard");
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "Sun");
 
-    // const getTotalExpense = () => {
-    //     setTotalExpense((expense) => expense + parseFloat(expenseAmount));
-    // }
-
-    // useEffect(() => {
-    //     getTotalExpense();
-    // }, [expenseAmount]);
-
     useEffect(() => {
         localStorage.setItem("theme", theme);
-    }, [theme])
+    }, [theme]);
 
     return (
-        <div
-            className={`flex h-screen ${
-                theme === "Moon" ? "bg-black/90 text-white" : ""
-            }`}
-        >
-            <Sidebar
-                showSidebar={showSidebar}
-                setShowSidebar={setShowSidebar}
-                theme={theme}
-                setTheme={setTheme}
-            />
-            <div className="flex-1">
-                <Header
-                    userFirstName={userFirstName}
-                    userLastName={userLastName}
-                    userEmail={userEmail}
-                    userImg={userImg}
-                    setShowSidebar={setShowSidebar}
-                    showSidebar={showSidebar}
-                />
-
-                <div className="flex justify-end pr-7">
-                    <button
-                        onClick={() => setOpen(true)}
-                        className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
-                    >
-                        <Plus />
-                        Add expense
-                    </button>
-                </div>
-
-                <CustomDialog
-                    open={open}
-                    setOpen={setOpen}
-                    dialogTitle="Add Expense"
-                    dialog="Enter expense"
-                    setTotalExpense={setTotalExpense}
-                />
-
-                <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">
-                    <SmallCard title="Total balance" amount={totalBalance} />
-                    <SmallCard title="Income" amount={income} />
-                    <SmallCard title="Expense" amount={totalExpense} />
-                    <SmallCard title="Total Savings" amount={totalSavings} />
-
-                    <LargeCard title="Money Flow" />
-                    <MediumCard title="Budget" />
-                    <LargeCard title="Recent transactions" />
-                    <MediumCard title="Saving goals" />
-                </div>
-            </div>
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route
+                    element={
+                        <DefaultLayout
+                            showSidebar={showSidebar}
+                            setShowSidebar={setShowSidebar}
+                            theme={theme}
+                            setTheme={setTheme}
+                        />
+                    }
+                >
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <Dashboard
+                                showSidebar={showSidebar}
+                                setShowSidebar={setShowSidebar}
+                                theme={theme}
+                                setTheme={setTheme}
+                                userFirstName={userFirstName}
+                                userLastName={userLastName}
+                                userEmail={userEmail}
+                                userImg={userImg}
+                                open={open}
+                                setOpen={setOpen}
+                                setTotalExpense={setTotalExpense}
+                                totalBalance={totalBalance}
+                                income={income}
+                                totalExpense={totalExpense}
+                                totalSavings={totalSavings}
+                            />
+                        }
+                    />
+                    <Route path="/transactions" element={<Transactions />} />
+                    <Route path="/wallet" element={<Wallet />} />
+                    <Route path="/goals" element={<Goals />} />
+                    <Route path="/budget" element={<Budget />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/settings" element={<Settings />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
