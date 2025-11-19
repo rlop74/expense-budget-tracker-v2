@@ -5,11 +5,13 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useTotalExpense } from '../stores/expenses-store';
 
 export const CustomDialog = ({ open, setOpen, dialogTitle, dialog, setTotalExpense }) => {
     // const inputItems = ["amount", "name"];
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState("");
+    const addExpense = useTotalExpense((state) => state.addExpense);
 
     return (
         <Dialog
@@ -47,7 +49,7 @@ export const CustomDialog = ({ open, setOpen, dialogTitle, dialog, setTotalExpen
                 <Button onClick={() => setOpen(false)}>Cancel</Button>
                 <Button
                     onClick={() => {
-                        setTotalExpense((prev) => prev + parseFloat(amount));
+                        addExpense(amount);
                         setOpen(false);
                     }}
                     autoFocus

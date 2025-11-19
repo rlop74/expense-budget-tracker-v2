@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 
+import { useTotalExpense } from './stores/expenses-store'
+
 import { DefaultLayout } from "./layout/DefaultLayout";
 import { Dashboard } from "./pages/Dashboard";
 import { Transactions } from "./pages/Transactions";
@@ -20,18 +22,20 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [totalBalance, setTotalBalance] = useState(0);
     const [income, setIncome] = useState(0);
-    const [totalExpense, setTotalExpense] = useState(0);
-    // const [expenseAmount, setExpenseAmount] = useState(0);
+    // const [totalExpense, setTotalExpense] = useState(0);
+    const { totalExpense, addExpense } = useTotalExpense((state) => state)
     const [expenseName, setExpenseName] = useState("");
     const [totalSavings, setTotalSavings] = useState(0);
     const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
     const [activePage, setActivePage] = useState("Dashboard");
-    const [theme, setTheme] = useState(localStorage.getItem("theme") || "Sun");
+    // const [theme, setTheme] = useState(localStorage.getItem("theme") || "Sun");
 
-    useEffect(() => {
-        localStorage.setItem("theme", theme);
-    }, [theme]);
+    // useEffect(() => {
+    //     localStorage.setItem("theme", theme);
+    // }, [theme]);
+
+    
 
     return (
         <BrowserRouter>
@@ -41,8 +45,8 @@ function App() {
                         <DefaultLayout
                             showSidebar={showSidebar}
                             setShowSidebar={setShowSidebar}
-                            theme={theme}
-                            setTheme={setTheme}
+                            // theme={theme}
+                            // setTheme={setTheme}
                         />
                     }
                 >
@@ -52,18 +56,14 @@ function App() {
                             <Dashboard
                                 showSidebar={showSidebar}
                                 setShowSidebar={setShowSidebar}
-                                theme={theme}
-                                setTheme={setTheme}
                                 userFirstName={userFirstName}
                                 userLastName={userLastName}
                                 userEmail={userEmail}
                                 userImg={userImg}
                                 open={open}
                                 setOpen={setOpen}
-                                setTotalExpense={setTotalExpense}
                                 totalBalance={totalBalance}
                                 income={income}
-                                totalExpense={totalExpense}
                                 totalSavings={totalSavings}
                             />
                         }

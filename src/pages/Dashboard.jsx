@@ -7,23 +7,23 @@ import { MediumCard } from "../components/MediumCard";
 import { LargeCard } from "../components/LargeCard";
 import { CustomDialog } from "../components/CustomDialog";
 
+import { useTotalExpense } from "../stores/expenses-store";
+
 export const Dashboard = ({
     showSidebar,
     setShowSidebar,
-    theme,
-    setTheme,
     userFirstName,
     userLastName,
     userEmail,
     userImg,
     open,
     setOpen,
-    setTotalExpense,
     totalBalance,
     income,
-    totalExpense,
     totalSavings,
 }) => {
+    const totalExpense = useTotalExpense((state) => state.totalExpense);
+
     return (
         <>
             <div className="flex-1">
@@ -51,7 +51,6 @@ export const Dashboard = ({
                     setOpen={setOpen}
                     dialogTitle="Add Expense"
                     dialog="Enter expense"
-                    setTotalExpense={setTotalExpense}
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">

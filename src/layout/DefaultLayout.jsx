@@ -1,14 +1,15 @@
 import { Outlet } from "react-router";
 import { Sidebar } from "../components/Sidebar";
+import { useThemeStore } from '@/stores/theme-store';
 
 export const DefaultLayout = ({
     showSidebar,
     setShowSidebar,
-    theme,
-    setTheme,
     isOpen,
     setIsOpen,
 }) => {
+    const theme = useThemeStore((state) => state.theme); // "Sun"
+
     return (
         <div
             className={`flex h-screen ${
@@ -19,7 +20,6 @@ export const DefaultLayout = ({
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
                 theme={theme}
-                setTheme={setTheme}
             />
             <Outlet />
         </div>

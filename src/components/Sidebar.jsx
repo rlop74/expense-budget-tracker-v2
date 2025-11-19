@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { useThemeStore } from "@/stores/theme-store";
 
 import {
     ArrowLeftRight,
@@ -18,7 +19,7 @@ import {
     PanelLeftOpen,
 } from "lucide-react";
 
-export const Sidebar = ({ showSidebar, setShowSidebar, theme, setTheme }) => {
+export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
     const menuItems = [
         { icon: <LayoutDashboard />, name: "Dashboard", path: "/dashboard" },
         {
@@ -38,6 +39,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme, setTheme }) => {
     ];
 
     const themeItems = [<Sun />, <Moon />];
+    const changeTheme = useThemeStore((state) => state.changeTheme);
 
     return (
         <>
@@ -91,7 +93,8 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme, setTheme }) => {
                                             : ""
                                     }`}
                                     onClick={() =>
-                                        setTheme(themeItem.type.displayName)
+                                        // setTheme(themeItem.type.displayName)
+                                        changeTheme(themeItem.type.displayName)
                                     }
                                 >
                                     {themeItem}
