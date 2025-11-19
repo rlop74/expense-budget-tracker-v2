@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Plus } from "lucide-react";
 
 import { Sidebar } from "../components/Sidebar";
@@ -5,9 +6,11 @@ import { Header } from "../components/Header";
 import { SmallCard } from "../components/SmallCard";
 import { MediumCard } from "../components/MediumCard";
 import { LargeCard } from "../components/LargeCard";
-import { CustomDialog } from "../components/CustomDialog";
+import { AddExpenseDialog } from "../components/AddExpenseDialog";
+import { AddSavingsDialog } from "../components/AddSavingsDialog";
 
 import { useTotalExpense } from "../stores/expenses-store";
+import { useTotalSavings } from "../stores/savings-store";
 
 export const Dashboard = ({
     showSidebar,
@@ -16,13 +19,13 @@ export const Dashboard = ({
     userLastName,
     userEmail,
     userImg,
-    open,
-    setOpen,
     totalBalance,
     income,
-    totalSavings,
 }) => {
+    const [addExpenseBtn, setAddExpenseBtn] = useState(false);
     const totalExpense = useTotalExpense((state) => state.totalExpense);
+    const [addSavingsBtn, setAddSavingsBtn] = useState(false);
+    const totalSavings = useTotalSavings((state) => state.totalSavings);
 
     return (
         <>
@@ -36,21 +39,36 @@ export const Dashboard = ({
                     showSidebar={showSidebar}
                 />
 
-                <div className="flex justify-end pr-7">
+                <div className="flex justify-end pr-7 gap-3">
                     <button
-                        onClick={() => setOpen(true)}
+                        onClick={() => setAddExpenseBtn(true)}
                         className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
                     >
                         <Plus />
                         Add expense
                     </button>
+
+                    <button
+                        onClick={() => setAddSavingsBtn(true)}
+                        className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
+                    >
+                        <Plus />
+                        Add savings
+                    </button>
                 </div>
 
-                <CustomDialog
-                    open={open}
-                    setOpen={setOpen}
+                <AddExpenseDialog
+                    addExpenseBtn={addExpenseBtn}
+                    setAddExpenseBtn={setAddExpenseBtn}
                     dialogTitle="Add Expense"
                     dialog="Enter expense"
+                />
+
+                <AddSavingsDialog
+                    addSavingsBtn={addSavingsBtn}
+                    setAddSavingsBtn={setAddSavingsBtn}
+                    dialogTitle="Add Savings"
+                    dialog="Enter savings"
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 
-import { useTotalExpense } from './stores/expenses-store'
+import { useTotalExpense } from "./stores/expenses-store";
+import { useUserImg } from "./stores/user-img-store";
 
 import { DefaultLayout } from "./layout/DefaultLayout";
 import { Dashboard } from "./pages/Dashboard";
@@ -16,26 +17,14 @@ function App() {
     const [userFirstName, setUserFirstName] = useState("Russel");
     const [userLastName, setUserLastName] = useState("Lopez");
     const [userEmail, setuserEmail] = useState("email@domain.com");
-    const [userImg, setuserImg] = useState(
-        "https://media.licdn.com/dms/image/v2/D4E03AQGy1OWBIfOy2A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1691031045223?e=1764201600&v=beta&t=O2Nwj1howzF6UzghUIPliAHVF8_z0qfA3KVrEAACU4s"
-    );
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [totalBalance, setTotalBalance] = useState(0);
     const [income, setIncome] = useState(0);
-    // const [totalExpense, setTotalExpense] = useState(0);
-    const { totalExpense, addExpense } = useTotalExpense((state) => state)
     const [expenseName, setExpenseName] = useState("");
-    const [totalSavings, setTotalSavings] = useState(0);
     const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
+    const { userImg, changeUserImg } = useUserImg((state) => state);
     const [activePage, setActivePage] = useState("Dashboard");
-    // const [theme, setTheme] = useState(localStorage.getItem("theme") || "Sun");
-
-    // useEffect(() => {
-    //     localStorage.setItem("theme", theme);
-    // }, [theme]);
-
-    
 
     return (
         <BrowserRouter>
@@ -45,8 +34,6 @@ function App() {
                         <DefaultLayout
                             showSidebar={showSidebar}
                             setShowSidebar={setShowSidebar}
-                            // theme={theme}
-                            // setTheme={setTheme}
                         />
                     }
                 >
@@ -64,7 +51,6 @@ function App() {
                                 setOpen={setOpen}
                                 totalBalance={totalBalance}
                                 income={income}
-                                totalSavings={totalSavings}
                             />
                         }
                     />

@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useTotalExpense } from '../stores/expenses-store';
 
-export const CustomDialog = ({ open, setOpen, dialogTitle, dialog, setTotalExpense }) => {
+export const AddExpenseDialog = ({ addExpenseBtn, setAddExpenseBtn, dialogTitle, dialog }) => {
     // const inputItems = ["amount", "name"];
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState("");
@@ -15,8 +15,8 @@ export const CustomDialog = ({ open, setOpen, dialogTitle, dialog, setTotalExpen
 
     return (
         <Dialog
-            open={open}
-            onClose={() => setOpen(false)} // Closes dialog when clicking outside or pressing Escape
+            open={addExpenseBtn}
+            onClose={() => setAddExpenseBtn(false)} // Closes dialog when clicking outside or pressing Escape
             aria-labelledby="dialog-title"
             aria-describedby="dialog-description"
             maxWidth="sm"
@@ -46,11 +46,11 @@ export const CustomDialog = ({ open, setOpen, dialogTitle, dialog, setTotalExpen
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setOpen(false)}>Cancel</Button>
+                <Button onClick={() => setAddExpenseBtn(false)}>Cancel</Button>
                 <Button
                     onClick={() => {
                         addExpense(amount);
-                        setOpen(false);
+                        setAddExpenseBtn(false);
                     }}
                     autoFocus
                 >
