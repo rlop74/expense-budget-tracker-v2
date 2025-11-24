@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Coins } from "lucide-react";
 
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header";
@@ -8,9 +8,11 @@ import { MediumCard } from "../components/MediumCard";
 import { LargeCard } from "../components/LargeCard";
 import { AddExpenseDialog } from "../components/AddExpenseDialog";
 import { AddSavingsDialog } from "../components/AddSavingsDialog";
+import { AddIncomeDialog } from "../components/AddIncomeDialog";
 
 import { useTotalExpense } from "../stores/expenses-store";
 import { useTotalSavings } from "../stores/savings-store";
+import { useIncome } from "../stores/income-store";
 
 export const Dashboard = ({
     showSidebar,
@@ -20,12 +22,13 @@ export const Dashboard = ({
     userEmail,
     userImg,
     totalBalance,
-    income,
 }) => {
     const [addExpenseBtn, setAddExpenseBtn] = useState(false);
     const totalExpense = useTotalExpense((state) => state.totalExpense);
     const [addSavingsBtn, setAddSavingsBtn] = useState(false);
     const totalSavings = useTotalSavings((state) => state.totalSavings);
+    const [updateIncomeBtn, setUpdateIncomeBtn] = useState(false);
+    const income = useIncome((state) => state.income);
 
     return (
         <>
@@ -55,6 +58,14 @@ export const Dashboard = ({
                         <Plus />
                         Add savings
                     </button>
+
+                    <button
+                        onClick={() => setUpdateIncomeBtn(true)}
+                        className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
+                    >
+                        <Coins />
+                        Update income
+                    </button>
                 </div>
 
                 <AddExpenseDialog
@@ -69,6 +80,13 @@ export const Dashboard = ({
                     setAddSavingsBtn={setAddSavingsBtn}
                     dialogTitle="Add Savings"
                     dialog="Enter savings"
+                />
+
+                <AddIncomeDialog
+                    updateIncomeBtn={updateIncomeBtn}
+                    setUpdateIncomeBtn={setUpdateIncomeBtn}
+                    dialogTitle="Add Income"
+                    dialog="Enter Income"
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">

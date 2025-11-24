@@ -5,17 +5,22 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useTotalExpense } from '../stores/expenses-store';
+import { useIncome } from "../stores/income-store";
 
-export const AddExpenseDialog = ({ addExpenseBtn, setAddExpenseBtn, dialogTitle, dialog }) => {
+export const AddIncomeDialog = ({
+    updateIncomeBtn,
+    setUpdateIncomeBtn,
+    dialogTitle,
+    dialog,
+}) => {
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState("");
-    const addExpense = useTotalExpense((state) => state.addExpense);
+    const updateIncome = useIncome((state) => state.updateIncome);
 
     return (
         <Dialog
-            open={addExpenseBtn}
-            onClose={() => setAddExpenseBtn(false)} // Closes dialog when clicking outside or pressing Escape
+            open={updateIncomeBtn}
+            onClose={() => setUpdateIncomeBtn(false)} // Closes dialog when clicking outside or pressing Escape
             aria-labelledby="dialog-title"
             aria-describedby="dialog-description"
             maxWidth="sm"
@@ -45,11 +50,11 @@ export const AddExpenseDialog = ({ addExpenseBtn, setAddExpenseBtn, dialogTitle,
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setAddExpenseBtn(false)}>Cancel</Button>
+                <Button onClick={() => setUpdateIncomeBtn(false)}>Cancel</Button>
                 <Button
                     onClick={() => {
-                        addExpense(amount);
-                        setAddExpenseBtn(false);
+                        updateIncome(amount);
+                        setUpdateIncomeBtn(false);
                     }}
                     autoFocus
                 >

@@ -19,7 +19,6 @@ function App() {
     const [userEmail, setuserEmail] = useState("email@domain.com");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [totalBalance, setTotalBalance] = useState(0);
-    const [income, setIncome] = useState(0);
     const [expenseName, setExpenseName] = useState("");
     const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
@@ -50,7 +49,6 @@ function App() {
                                 open={open}
                                 setOpen={setOpen}
                                 totalBalance={totalBalance}
-                                income={income}
                             />
                         }
                     />

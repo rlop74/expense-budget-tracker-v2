@@ -1,0 +1,310 @@
+/*
+Layout with flex/grid.
+Simple dashboard design.
+Maybe color-coded expenses (green = income, red = expense).
+
+color palettes: 
+#EADEDA
+#998888
+#BFB8AD
+#823329
+#8A3033
+
+#E6EED6
+#DDE2C6
+#BBC5AA
+#A72608
+#090C02
+
+#4C2E05
+#7A8450
+#AEBD93
+#BEE7B8
+#95969D
+
+#848C8E
+#435058
+#DCF763
+#BFB7B6
+#F1F2EE
+
+#F7F9F9
+#BED8D4
+#78D5D7
+#63D2FF
+#2081C3
+
+#32292F
+#99E1D9
+#F0F7F4
+#70ABAF
+#705D56
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/********************************************
+                 default
+********************************************/
+:root {
+    --background-color: #F7F9F9;
+    --secondary-color: #F0F7F4;
+    --savings-accent-color: #fff;
+    --savings-background-color: #7A8450; /* #dedeb2; */
+    --expense-accent-color: #fff;
+    --expense-background-color: #8A3033;
+    --text-color: #32292F;
+    --border-color: #BED8D4;
+    --bar-color: #173753;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: "Poppins";
+    font-size: 1.1em;
+    color: var(--text-color);
+    margin: 0;
+}
+
+/********************************************
+            heading/nav style 
+*********************************************/
+.heading {
+    text-align: center;
+    margin: 0;
+    padding: 15px;
+}
+
+#menuBar {
+    display: flex;
+    justify-content: center;
+    background-color: var(--bar-color);
+    color: var(--background-color);
+    padding: 1%;
+    gap: 50px;
+}
+
+#menuBar a {
+    color: var(--background-color);
+}
+
+#menuBar a:hover {
+    cursor: pointer;
+}
+
+#currencyRates {
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+    color: var(--bar-color);
+}
+
+/********************************************
+              grid and card style
+ ********************************************/
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: .5fr .25fr .25fr .5fr;
+    grid-template-areas:
+        "monthlyIncomeCard expenses savings"
+        "safeToSpendCard safeToSpendCard mainChartCard"
+        "expenseCard savingsCard mainChartCard"
+        "expenseBreakdown savingsBreakdown resetAllBtnCard";
+}
+
+h2 {
+    margin: 0;
+}
+
+.card {
+    margin: 10px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    /* padding: 10px; */
+    padding: 2% 10% 2% 10%;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: fit-content; */
+}
+
+.card:hover {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+#monthlyIncomeCard {
+    grid-area: monthlyIncomeCard;
+}
+
+#expenses {
+    grid-area: expenses;
+}
+
+#savings {
+    grid-area: savings;
+}
+
+#safeToSpendCard {
+    grid-area: safeToSpendCard;
+}
+
+#mainChartCard {
+    grid-area: mainChartCard;
+    display: flex;
+    justify-content: center;
+}
+
+#expenseCard {
+    grid-area: expenseCard;
+}
+
+#savingsCard {
+    grid-area: savingsCard;
+}
+
+#expenseBreakdown {
+    grid-area: expenseBreakdown;
+    padding: 10px;
+}
+
+#savingsBreakdown {
+    grid-area: savingsBreakdown;
+    padding: 10px;
+}
+
+#resetAllBtnCard {
+    grid-area: resetAllBtnCard;
+    text-align: center;
+}
+
+/********************************************
+            card contents style
+*********************************************/
+.cardTitle {
+    padding: 10px;
+}
+
+ul {
+    margin: 15px;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    min-height: fit-content;
+    min-width: fit-content;
+    border-radius: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size:larger;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#expensesList li {
+    color: var(--expense-accent-color);
+    background-color: var(--expense-background-color);
+}
+
+#savingsList li {
+    color: var(--savings-accent-color);
+    background-color: var(--savings-background-color);
+}
+
+li:hover {
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9)
+}
+
+input, select {
+    width: 70%;
+    line-height: 10px;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 8px;
+    border-color: var(--border-color);
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    width: fit-content;
+    border-color: var(--border-color);
+    border-radius: 15px;
+    background-color: var(--background-color);
+    cursor: pointer;
+}
+
+#resetAllBtn {
+    border: 3px solid var(--expense-background-color);
+    color: var(--expense-background-color);
+    margin: 20px auto;
+    font-weight: bold;
+}
+
+/********************************************
+                   footer
+*********************************************/
+footer {
+    text-align: center;
+    background-color: var(--bar-color);
+    color: var(--background-color);
+    padding: 10px;
+    margin: 0;
+}
+
+footer a {
+    /* text-decoration: none; */
+    color: var(--background-color);
+}
+
+footer a:hover {
+    cursor: pointer;
+}
+
+/********************************************
+            contact page
+********************************************/
+
+
+
+/********************************************
+            responsive design
+********************************************/
+
+@media (max-width: 991px) {
+    h2 {
+        font-size: larger;
+    }
+    li {
+        font-size: large;
+    }
+}
+
+@media (max-width: 852px) {
+    h2 {
+        font-size: large;
+    }
+    li {
+        font-size: medium;
+    }
+}
+
+@media (max-width: 780px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: .5fr .25fr .25fr .5fr;
+        grid-template-areas:
+            "safeToSpendCard resetAllBtnCard"
+            "expenses savings"
+            "monthlyIncomeCard mainChartCard"
+            "expenseCard savingsCard"
+            "expenseBreakdown savingsBreakdown";
+    }
+}

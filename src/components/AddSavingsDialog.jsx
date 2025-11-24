@@ -5,14 +5,11 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useTotalExpense } from '../stores/expenses-store';
 import { useTotalSavings } from "../stores/savings-store";
 
 export const AddSavingsDialog = ({ addSavingsBtn, setAddSavingsBtn, dialogTitle, dialog }) => {
-    // const inputItems = ["amount", "name"];
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState("");
-    const addExpense = useTotalExpense((state) => state.addExpense);
     const addSavings = useTotalSavings((state) => state.addSavings);
 
     return (
