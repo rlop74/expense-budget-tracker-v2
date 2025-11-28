@@ -13,7 +13,7 @@ export const AddExpenseDialog = ({
     dialogTitle,
     dialog,
 }) => {
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState();
     const [name, setName] = useState("");
     const addExpense = useTotalExpense((state) => state.addExpense);
 
@@ -50,7 +50,11 @@ export const AddExpenseDialog = ({
             </DialogContent>
             <DialogActions>
                 <button
-                    onClick={() => setAddExpenseBtn(false)}
+                    onClick={() => {
+                        setAddExpenseBtn(false);
+                        setAmount();
+                        setName();
+                    }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                 >
                     Cancel
@@ -59,6 +63,8 @@ export const AddExpenseDialog = ({
                     onClick={() => {
                         addExpense(amount);
                         setAddExpenseBtn(false);
+                        setAmount();
+                        setName();
                     }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus

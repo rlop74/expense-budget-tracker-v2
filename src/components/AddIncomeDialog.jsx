@@ -13,7 +13,7 @@ export const AddIncomeDialog = ({
     dialogTitle,
     dialog,
 }) => {
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState();
     const [name, setName] = useState("");
     const updateIncome = useIncome((state) => state.updateIncome);
 
@@ -44,7 +44,10 @@ export const AddIncomeDialog = ({
             </DialogContent>
             <DialogActions>
                 <button
-                    onClick={() => setUpdateIncomeBtn(false)}
+                    onClick={() => {
+                        setUpdateIncomeBtn(false);
+                        setAmount();
+                    }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                 >
                     Cancel
@@ -53,6 +56,7 @@ export const AddIncomeDialog = ({
                     onClick={() => {
                         updateIncome(amount);
                         setUpdateIncomeBtn(false);
+                        setAmount();
                     }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus

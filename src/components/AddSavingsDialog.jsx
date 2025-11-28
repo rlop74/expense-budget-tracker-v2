@@ -13,7 +13,7 @@ export const AddSavingsDialog = ({
     dialogTitle,
     dialog,
 }) => {
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState();
     const [name, setName] = useState("");
     const addSavings = useTotalSavings((state) => state.addSavings);
 
@@ -51,7 +51,11 @@ export const AddSavingsDialog = ({
             </DialogContent>
             <DialogActions>
                 <button
-                    onClick={() => setAddSavingsBtn(false)}
+                    onClick={() => {
+                        setAddSavingsBtn(false);
+                        setAmount();
+                        setName();
+                    }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                 >
                     Cancel
@@ -60,6 +64,8 @@ export const AddSavingsDialog = ({
                     onClick={() => {
                         addSavings(amount);
                         setAddSavingsBtn(false);
+                        setAmount();
+                        setName();
                     }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
