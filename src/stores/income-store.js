@@ -10,6 +10,11 @@ export const useIncome = create(
                     income: amount,
                 })),
         }),
-        { name: "income", partialize: (state) => ({ income: state.income }) }
+        {
+            name: "income",
+            partialize: (state) => ({
+                income: state.income,
+            }),
+        }
     )
 );
