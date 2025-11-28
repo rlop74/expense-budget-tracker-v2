@@ -13,7 +13,6 @@ import { AddIncomeDialog } from "../components/AddIncomeDialog";
 import { useTotalExpense } from "../stores/expenses-store";
 import { useTotalSavings } from "../stores/savings-store";
 import { useIncome } from "../stores/income-store";
-import { useTotalBalance } from "../stores/total-balance-store";
 
 export const Dashboard = ({
     showSidebar,
@@ -28,7 +27,6 @@ export const Dashboard = ({
     const [addSavingsBtn, setAddSavingsBtn] = useState(false);
     const totalSavings = useTotalSavings((state) => state.totalSavings);
     const [updateIncomeBtn, setUpdateIncomeBtn] = useState(false);
-    const totalBalance = useTotalBalance((state) => state.totalBalance);
     const income = useIncome((state) => state.income);
 
     return (
@@ -91,7 +89,7 @@ export const Dashboard = ({
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">
-                    <SmallCard title="Total balance" amount={totalBalance} />
+                    <SmallCard title="Total balance" amount={totalExpense + totalSavings} />
                     <SmallCard title="Income" amount={income} />
                     <SmallCard title="Expense" amount={totalExpense} />
                     <SmallCard title="Total Savings" amount={totalSavings} />
