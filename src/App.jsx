@@ -18,7 +18,6 @@ function App() {
     const [userLastName, setUserLastName] = useState("Lopez");
     const [userEmail, setuserEmail] = useState("email@domain.com");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [totalBalance, setTotalBalance] = useState(0);
     const [expenseName, setExpenseName] = useState("");
     const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
@@ -48,7 +47,6 @@ function App() {
                                 userImg={userImg}
                                 open={open}
                                 setOpen={setOpen}
-                                totalBalance={totalBalance}
                             />
                         }
                     />

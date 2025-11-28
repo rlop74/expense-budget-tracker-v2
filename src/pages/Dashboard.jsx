@@ -13,6 +13,7 @@ import { AddIncomeDialog } from "../components/AddIncomeDialog";
 import { useTotalExpense } from "../stores/expenses-store";
 import { useTotalSavings } from "../stores/savings-store";
 import { useIncome } from "../stores/income-store";
+import { useTotalBalance } from "../stores/total-balance-store";
 
 export const Dashboard = ({
     showSidebar,
@@ -21,13 +22,13 @@ export const Dashboard = ({
     userLastName,
     userEmail,
     userImg,
-    totalBalance,
 }) => {
     const [addExpenseBtn, setAddExpenseBtn] = useState(false);
     const totalExpense = useTotalExpense((state) => state.totalExpense);
     const [addSavingsBtn, setAddSavingsBtn] = useState(false);
     const totalSavings = useTotalSavings((state) => state.totalSavings);
     const [updateIncomeBtn, setUpdateIncomeBtn] = useState(false);
+    const totalBalance = useTotalBalance((state) => state.totalBalance);
     const income = useIncome((state) => state.income);
 
     return (
