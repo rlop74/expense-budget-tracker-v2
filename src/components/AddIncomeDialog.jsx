@@ -40,26 +40,25 @@ export const AddIncomeDialog = ({
                         value={amount}
                         onChange={(event) => setAmount(event.target.value)}
                     />
-                    <input
-                        type="text"
-                        placeholder={`${dialog} name`}
-                        className="border-1 p-5 rounded-full"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                    />
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setUpdateIncomeBtn(false)}>Cancel</Button>
-                <Button
+                <button
+                    onClick={() => setUpdateIncomeBtn(false)}
+                    className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
+                >
+                    Cancel
+                </button>
+                <button
                     onClick={() => {
                         updateIncome(amount);
                         setUpdateIncomeBtn(false);
                     }}
+                    className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
                 >
                     Confirm
-                </Button>
+                </button>
             </DialogActions>
         </Dialog>
     );

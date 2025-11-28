@@ -85,7 +85,7 @@ export const Dashboard = ({
                 <AddIncomeDialog
                     updateIncomeBtn={updateIncomeBtn}
                     setUpdateIncomeBtn={setUpdateIncomeBtn}
-                    dialogTitle="Add Income"
+                    dialogTitle="Update Income"
                     dialog="Enter Income"
                 />
 

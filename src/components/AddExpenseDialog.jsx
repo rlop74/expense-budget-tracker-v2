@@ -5,9 +5,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useTotalExpense } from '../stores/expenses-store';
+import { useTotalExpense } from "../stores/expenses-store";
 
-export const AddExpenseDialog = ({ addExpenseBtn, setAddExpenseBtn, dialogTitle, dialog }) => {
+export const AddExpenseDialog = ({
+    addExpenseBtn,
+    setAddExpenseBtn,
+    dialogTitle,
+    dialog,
+}) => {
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState("");
     const addExpense = useTotalExpense((state) => state.addExpense);
@@ -18,7 +23,6 @@ export const AddExpenseDialog = ({ addExpenseBtn, setAddExpenseBtn, dialogTitle,
             onClose={() => setAddExpenseBtn(false)} // Closes dialog when clicking outside or pressing Escape
             aria-labelledby="dialog-title"
             aria-describedby="dialog-description"
-            maxWidth="sm"
             fullWidth={true}
         >
             <DialogTitle id="dialog-title">{dialogTitle}</DialogTitle>
@@ -45,16 +49,22 @@ export const AddExpenseDialog = ({ addExpenseBtn, setAddExpenseBtn, dialogTitle,
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setAddExpenseBtn(false)}>Cancel</Button>
-                <Button
+                <button
+                    onClick={() => setAddExpenseBtn(false)}
+                    className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
+                >
+                    Cancel
+                </button>
+                <button
                     onClick={() => {
                         addExpense(amount);
                         setAddExpenseBtn(false);
                     }}
+                    className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
                 >
                     Confirm
-                </Button>
+                </button>
             </DialogActions>
         </Dialog>
     );

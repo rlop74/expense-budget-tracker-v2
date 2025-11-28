@@ -7,7 +7,12 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useTotalSavings } from "../stores/savings-store";
 
-export const AddSavingsDialog = ({ addSavingsBtn, setAddSavingsBtn, dialogTitle, dialog }) => {
+export const AddSavingsDialog = ({
+    addSavingsBtn,
+    setAddSavingsBtn,
+    dialogTitle,
+    dialog,
+}) => {
     const [amount, setAmount] = useState(0);
     const [name, setName] = useState("");
     const addSavings = useTotalSavings((state) => state.addSavings);
@@ -45,16 +50,22 @@ export const AddSavingsDialog = ({ addSavingsBtn, setAddSavingsBtn, dialogTitle,
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => setAddSavingsBtn(false)}>Cancel</Button>
-                <Button
+                <button
+                    onClick={() => setAddSavingsBtn(false)}
+                    className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
+                >
+                    Cancel
+                </button>
+                <button
                     onClick={() => {
                         addSavings(amount);
                         setAddSavingsBtn(false);
                     }}
+                    className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
                 >
                     Confirm
-                </Button>
+                </button>
             </DialogActions>
         </Dialog>
     );
