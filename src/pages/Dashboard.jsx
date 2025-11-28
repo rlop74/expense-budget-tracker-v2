@@ -28,6 +28,7 @@ export const Dashboard = ({
     const totalSavings = useTotalSavings((state) => state.totalSavings);
     const [updateIncomeBtn, setUpdateIncomeBtn] = useState(false);
     const income = useIncome((state) => state.income);
+    const totalBalance = income - (totalExpense + totalSavings);
 
     return (
         <>
@@ -89,10 +90,10 @@ export const Dashboard = ({
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">
-                    <SmallCard title="Total balance" amount={totalExpense + totalSavings} />
-                    <SmallCard title="Income" amount={income} />
-                    <SmallCard title="Expense" amount={totalExpense} />
-                    <SmallCard title="Total Savings" amount={totalSavings} />
+                    <SmallCard title="Remaining balance" amount={totalBalance.toLocaleString()} />
+                    <SmallCard title="Income" amount={income.toLocaleString()} />
+                    <SmallCard title="Total Expense" amount={totalExpense.toLocaleString()} />
+                    <SmallCard title="Total Savings" amount={totalSavings.toLocaleString()} />
 
                     <LargeCard title="Money Flow" />
                     <MediumCard title="Budget" />

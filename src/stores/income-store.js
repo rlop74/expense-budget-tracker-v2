@@ -7,7 +7,7 @@ export const useIncome = create(
             income: 0,
             updateIncome: (amount) =>
                 set((state) => ({
-                    income: amount,
+                    income: parseFloat(amount),
                 })),
         }),
         {
