@@ -61,8 +61,10 @@ export const AddExpenseDialog = ({
                 </button>
                 <button
                     onClick={() => {
-                        addExpense(amount);
+                        addExpense(amount, name);
                         setAddExpenseBtn(false);
+
+                        // clear inputs on click
                         setAmount();
                         setName();
                     }}

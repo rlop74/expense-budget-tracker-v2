@@ -44,9 +44,9 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
     return (
         <>
             <div
-                className={`flex flex-col justify-between list-none bg-violet-500/30 transition-all duration-300 ease-in-out ${
+                className={`flex flex-col justify-between list-none bg-violet-500/30 h-auto transition-all duration-300 ease-in-out ${
                     showSidebar
-                        ? "w-[12%] translate-x-0 p-5"
+                        ? "w-[15%] translate-x-0 p-5"
                         : "w-0 -translate-x-50 p-0"
                 }`}
             >
@@ -57,11 +57,11 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
                             Budget Tracker
                         </div>
                     </div>
-                    {menuItems.map((item) => {
+                    {menuItems.map((item, index) => {
                         return (
                             <Link to={item.path}>
                                 <button
-                                    key={item.name}
+                                    key={index}
                                     className="flex gap-2 p-4 rounded-l-full rounded-r-full w-full"
                                 >
                                     {item.icon}
@@ -84,9 +84,10 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
                         </button>
                     </div>
                     <div className="flex rounded-l-full rounded-r-full border-1 border-gray-400 w-fit">
-                        {themeItems.map((themeItem) => {
+                        {themeItems.map((themeItem, index) => {
                             return (
                                 <button
+                                    key={index}
                                     className={`rounded-full p-3 transition-all duration-300 ease-in-out ${
                                         theme === themeItem.type.displayName
                                             ? "bg-violet-500/30"

@@ -13,6 +13,7 @@ import { AddIncomeDialog } from "../components/AddIncomeDialog";
 import { useTotalExpense } from "../stores/expenses-store";
 import { useTotalSavings } from "../stores/savings-store";
 import { useIncome } from "../stores/income-store";
+import { RecentTransactions } from "../components/RecentTransactions";
 
 export const Dashboard = ({
     showSidebar,
@@ -89,7 +90,7 @@ export const Dashboard = ({
                     dialog="Enter Income"
                 />
 
-                <div className="grid grid-cols-4 grid-rows-3 gap-3 mt-5 m-10">
+                <div className="grid grid-cols-4 grid-rows-3 grid-rows-[1fr_2fr_2fr] gap-3 mt-5 m-10">
                     <SmallCard title="Remaining balance" amount={totalBalance.toLocaleString()} />
                     <SmallCard title="Income" amount={income.toLocaleString()} />
                     <SmallCard title="Total Expense" amount={totalExpense.toLocaleString()} />
@@ -97,7 +98,7 @@ export const Dashboard = ({
 
                     <LargeCard title="Money Flow" />
                     <MediumCard title="Budget" />
-                    <LargeCard title="Recent transactions" />
+                    <LargeCard title="Recent transactions" content={<RecentTransactions />}/>
                     <MediumCard title="Saving goals" />
                 </div>
             </div>
