@@ -32,6 +32,8 @@ export const RecentTransactions = () => {
             </div>
             <div className="p-5">
                 {allExpenses
+                    .slice()
+                    .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((expense) => (
                     <li
                         key={expense.id}
