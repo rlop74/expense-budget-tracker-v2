@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { useThemeStore } from "@/stores/theme-store";
 
 import {
@@ -59,15 +59,18 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
                     </div>
                     {menuItems.map((item, index) => {
                         return (
-                            <Link to={item.path}>
-                                <button
-                                    key={index}
-                                    className="flex gap-2 p-4 rounded-l-full rounded-r-full w-full"
-                                >
-                                    {item.icon}
-                                    {item.name}
-                                </button>
-                            </Link>
+                            <NavLink
+                                to={item.path}
+                                key={item.path}
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "bg-violet-500 text-white flex gap-2 p-4 rounded-l-full rounded-r-full w-full transition-all duration-100 ease-in-out"
+                                        : "flex gap-2 p-4 rounded-l-full rounded-r-full w-full transition-all duration-300 ease-in-out hover:bg-violet-500/30"
+                                }
+                            >
+                                {item.icon}
+                                {item.name}
+                            </NavLink>
                         );
                     })}
                 </div>
@@ -90,7 +93,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
                                     key={index}
                                     className={`rounded-full p-3 transition-all duration-300 ease-in-out ${
                                         theme === themeItem.type.displayName
-                                            ? "bg-violet-500/30"
+                                            ? "bg-violet-500 text-white"
                                             : ""
                                     }`}
                                     onClick={() =>
