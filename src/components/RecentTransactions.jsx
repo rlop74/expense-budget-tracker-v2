@@ -1,8 +1,8 @@
-import { useTotalExpense } from "../stores/expenses-store";
+import { useExpenses } from "../stores/expenses-store";
 import { format, formatDistanceToNow, isToday, isYesterday } from "date-fns";
 
 export const RecentTransactions = () => {
-    const allExpenses = useTotalExpense((state) => state.allExpenses);
+    const allExpenses = useExpenses((state) => state.allExpenses);
     const tableHeaders = ["Date", "Amount", "Payment name"]; // add catergory
 
     const formatDate = (date) => {
@@ -32,8 +32,8 @@ export const RecentTransactions = () => {
             </div>
             <div className="p-5">
                 {allExpenses
-                    .slice()
-                    .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    // .slice()
+                    .sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
                     .map((expense) => (
                     <li
                         key={expense.id}
@@ -43,11 +43,11 @@ export const RecentTransactions = () => {
                             last:border-b-0
                         "
                     >
-                        <p>{formatDate(expense.createdAt)}</p>
+                        <p>{formatDate(expense.created_at)}</p>
                         <p className="text-center font-bold">
-                            {expense.amount.toFixed(2)}
+                            {Number(expense.expense_amount).toFixed(2)}
                         </p>
-                        <p className="text-right">{expense.name}</p>
+                        <p className="text-right">{expense.expense_name}</p>
                     </li>
                 ))}
             </div>

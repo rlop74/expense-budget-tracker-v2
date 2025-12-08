@@ -5,7 +5,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useTotalExpense } from "../stores/expenses-store";
+import { useExpenses } from "../stores/expenses-store";
 
 export const AddExpenseDialog = ({
     addExpenseBtn,
@@ -15,7 +15,7 @@ export const AddExpenseDialog = ({
 }) => {
     const [amount, setAmount] = useState();
     const [name, setName] = useState("");
-    const addExpense = useTotalExpense((state) => state.addExpense);
+    const addExpense = useExpenses((state) => state.addExpense);
 
     return (
         <Dialog

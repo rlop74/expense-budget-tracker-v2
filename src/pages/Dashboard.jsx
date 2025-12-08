@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import { Plus, Coins } from "lucide-react";
 
-import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header";
 import { SmallCard } from "../components/SmallCard";
 import { MediumCard } from "../components/MediumCard";
@@ -10,7 +11,7 @@ import { AddExpenseDialog } from "../components/AddExpenseDialog";
 import { AddSavingsDialog } from "../components/AddSavingsDialog";
 import { AddIncomeDialog } from "../components/AddIncomeDialog";
 
-import { useTotalExpense } from "../stores/expenses-store";
+import { useExpenses } from "../stores/expenses-store";
 import { useTotalSavings } from "../stores/savings-store";
 import { useIncome } from "../stores/income-store";
 import { RecentTransactions } from "../components/RecentTransactions";
@@ -24,12 +25,28 @@ export const Dashboard = ({
     userImg,
 }) => {
     const [addExpenseBtn, setAddExpenseBtn] = useState(false);
-    const totalExpense = useTotalExpense((state) => state.totalExpense);
+    const totalExpense = useExpenses((state) => state.totalExpense);
+    const setAllExpenses = useExpenses((state) => state.setAllExpenses);
+    const setTotalExpense = useExpenses((state) => state.setTotalExpense);
     const [addSavingsBtn, setAddSavingsBtn] = useState(false);
     const totalSavings = useTotalSavings((state) => state.totalSavings);
     const [updateIncomeBtn, setUpdateIncomeBtn] = useState(false);
     const income = useIncome((state) => state.income);
     const totalBalance = income - (totalExpense + totalSavings);
+
+    const fetchExpenses = async () => {
+        try {
+            const { data } = await axios.get("http://localhost:3000/expenses");
+            setAllExpenses(data);
+            setTotalExpense(data);
+        } catch (err) {
+            throw new Error(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchExpenses();
+    }, []);
 
     return (
         <>
@@ -91,14 +108,29 @@ export const Dashboard = ({
                 />
 
                 <div className="grid grid-cols-4 grid-rows-3 grid-rows-[1fr_2fr_2fr] gap-3 mt-5 m-10">
-                    <SmallCard title="Remaining balance" amount={totalBalance.toLocaleString()} />
-                    <SmallCard title="Income" amount={income.toLocaleString()} />
-                    <SmallCard title="Total Expense" amount={totalExpense.toLocaleString()} />
-                    <SmallCard title="Total Savings" amount={totalSavings.toLocaleString()} />
+                    <SmallCard
+                        title="Remaining balance"
+                        amount={totalBalance.toLocaleString()}
+                    />
+                    <SmallCard
+                        title="Income"
+                        amount={income.toLocaleString()}
+                    />
+                    <SmallCard
+                        title="Total Expense"
+                        amount={totalExpense.toLocaleString()}
+                    />
+                    <SmallCard
+                        title="Total Savings"
+                        amount={totalSavings.toLocaleString()}
+                    />
 
                     <LargeCard title="Money Flow" />
                     <MediumCard title="Budget" />
-                    <LargeCard title="Recent transactions" content={<RecentTransactions />}/>
+                    <LargeCard
+                        title="Recent transactions"
+                        content={<RecentTransactions />}
+                    />
                     <MediumCard title="Saving goals" />
                 </div>
             </div>

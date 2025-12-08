@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 
-import { useTotalExpense } from "./stores/expenses-store";
 import { useUserImg } from "./stores/user-img-store";
 
 import { DefaultLayout } from "./layout/DefaultLayout";
