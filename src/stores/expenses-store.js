@@ -6,28 +6,16 @@ export const useExpenses = create(
         (set) => ({
             totalExpense: 0,
             allExpenses: [],
-            // addExpense: (amount, name) =>
-            //     set((state) => ({
-            //         totalExpense: state.totalExpense + parseFloat(amount),
-            //         allExpenses: [
-            //             ...state.allExpenses,
-            //             {
-            //                 id: Date.now(),
-            //                 name: name,
-            //                 amount: parseFloat(amount),
-            //                 createdAt: new Date(),
-            //             },
-            //         ],
-            //     })),
             setAllExpenses: (expenses) =>
-                set(() => ({
-                    allExpenses: expenses
+                set((state) => ({
+                    allExpenses: expenses,
                 })),
             setTotalExpense: (expenses) =>
                 set((state) => ({
                     totalExpense: expenses.reduce(
-                        (acc, curr) => acc + Number(curr?.expense_amount || 0), 0
-                    )
+                        (acc, curr) => acc + Number(curr?.expense_amount || 0),
+                        0
+                    ),
                 })),
         }),
         {
