@@ -5,7 +5,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useIncome } from "../stores/income-store";
+// import { useIncome } from "../stores/income-store";
 
 export const AddIncomeDialog = ({
     updateIncomeBtn,
@@ -15,7 +15,7 @@ export const AddIncomeDialog = ({
 }) => {
     const [amount, setAmount] = useState();
     const [name, setName] = useState("");
-    const updateIncome = useIncome((state) => state.updateIncome);
+    // const updateIncome = useIncome((state) => state.updateIncome);
 
     return (
         <Dialog

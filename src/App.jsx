@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
+import axios from "axios";
 
-import { useUserImg } from "./stores/user-img-store";
+import { useUserStore } from "./stores/user-store";
 
 import { DefaultLayout } from "./layout/DefaultLayout";
 import { Dashboard } from "./pages/Dashboard";
@@ -13,15 +14,26 @@ import { Analytics } from "./pages/Analytics";
 import { Settings } from "./pages/Settings";
 
 function App() {
-    const [userFirstName, setUserFirstName] = useState("Russel");
-    const [userLastName, setUserLastName] = useState("Lopez");
-    const [userEmail, setuserEmail] = useState("email@domain.com");
+    const user = useUserStore((state) => state.user);
+    const setUser = useUserStore((state) => state.setUser);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [expenseName, setExpenseName] = useState("");
     const [showSidebar, setShowSidebar] = useState(true);
     const [open, setOpen] = useState(false);
-    const { userImg, changeUserImg } = useUserImg((state) => state);
     const [activePage, setActivePage] = useState("Dashboard");
+
+    const fetchUserById = async () => {
+        try {
+            const { data } = await axios.get("http://localhost:3000/users/1");
+            setUser(data[0]);
+        } catch (err) {
+            throw new Error(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserById();
+    }, []);
 
     return (
         <BrowserRouter>
@@ -40,10 +52,10 @@ function App() {
                             <Dashboard
                                 showSidebar={showSidebar}
                                 setShowSidebar={setShowSidebar}
-                                userFirstName={userFirstName}
-                                userLastName={userLastName}
-                                userEmail={userEmail}
-                                userImg={userImg}
+                                userFirstName={user?.first_name}
+                                userLastName={user?.last_name}
+                                userEmail={user?.email}
+                                userImg={user?.img}
                                 open={open}
                                 setOpen={setOpen}
                             />

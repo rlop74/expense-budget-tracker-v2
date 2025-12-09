@@ -13,7 +13,7 @@ import { AddIncomeDialog } from "../components/AddIncomeDialog";
 
 import { useExpenses } from "../stores/expenses-store";
 import { useTotalSavings } from "../stores/savings-store";
-import { useIncome } from "../stores/income-store";
+import { useUserStore } from "../stores/user-store";
 import { RecentTransactions } from "../components/RecentTransactions";
 
 export const Dashboard = ({
@@ -24,6 +24,7 @@ export const Dashboard = ({
     userEmail,
     userImg,
 }) => {
+    const user = useUserStore((state) => state.user);
     const [addExpenseBtn, setAddExpenseBtn] = useState(false);
     const totalExpense = useExpenses((state) => state.totalExpense);
     const setAllExpenses = useExpenses((state) => state.setAllExpenses);
@@ -31,8 +32,7 @@ export const Dashboard = ({
     const [addSavingsBtn, setAddSavingsBtn] = useState(false);
     const totalSavings = useTotalSavings((state) => state.totalSavings);
     const [updateIncomeBtn, setUpdateIncomeBtn] = useState(false);
-    const income = useIncome((state) => state.income);
-    const totalBalance = income - (totalExpense + totalSavings);
+    const totalBalance = user.income - (totalExpense + totalSavings);
 
     const fetchExpenses = async () => {
         try {
@@ -114,7 +114,7 @@ export const Dashboard = ({
                     />
                     <SmallCard
                         title="Income"
-                        amount={income.toLocaleString()}
+                        amount={user.income.toLocaleString()}
                     />
                     <SmallCard
                         title="Total Expense"
