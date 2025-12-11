@@ -1,26 +1,11 @@
-import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { useEffect } from "react";
+import { RouterProvider } from "react-router";
 import axios from "axios";
 
-import { useUserStore } from "./stores/user-store";
-
-import { DefaultLayout } from "./layout/DefaultLayout";
-import { Dashboard } from "./pages/Dashboard";
-import { Transactions } from "./pages/Transactions";
-import { Wallet } from "./pages/Wallet";
-import { Goals } from "./pages/Goals";
-import { Budget } from "./pages/Budget";
-import { Analytics } from "./pages/Analytics";
-import { Settings } from "./pages/Settings";
+import { router } from "./routes/router";
 
 function App() {
-    const user = useUserStore((state) => state.user);
-    const setUser = useUserStore((state) => state.setUser);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [expenseName, setExpenseName] = useState("");
-    const [showSidebar, setShowSidebar] = useState(true);
-    const [open, setOpen] = useState(false);
-    const [activePage, setActivePage] = useState("Dashboard");
+    
 
     const fetchUserById = async () => {
         try {
@@ -35,42 +20,7 @@ function App() {
         fetchUserById();
     }, []);
 
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route
-                    element={
-                        <DefaultLayout
-                            showSidebar={showSidebar}
-                            setShowSidebar={setShowSidebar}
-                        />
-                    }
-                >
-                    <Route
-                        path="/dashboard"
-                        element={
-                            <Dashboard
-                                showSidebar={showSidebar}
-                                setShowSidebar={setShowSidebar}
-                                userFirstName={user?.first_name}
-                                userLastName={user?.last_name}
-                                userEmail={user?.email}
-                                userImg={user?.img}
-                                open={open}
-                                setOpen={setOpen}
-                            />
-                        }
-                    />
-                    <Route path="/transactions" element={<Transactions />} />
-                    <Route path="/wallet" element={<Wallet />} />
-                    <Route path="/goals" element={<Goals />} />
-                    <Route path="/budget" element={<Budget />} />
-                    <Route path="/analytics" element={<Analytics />} />
-                    <Route path="/settings" element={<Settings />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
+    return <RouterProvider router={router} />
 }
 
 export default App;

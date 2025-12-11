@@ -6,8 +6,6 @@ export const Header = ({
     userLastName,
     userEmail,
     userImg,
-    setShowSidebar,
-    showSidebar,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
 

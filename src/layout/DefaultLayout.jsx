@@ -1,14 +1,11 @@
+import { useState } from "react";
 import { Outlet } from "react-router";
 import { Sidebar } from "../components/Sidebar";
 import { useThemeStore } from "@/stores/theme-store";
 
-export const DefaultLayout = ({
-    showSidebar,
-    setShowSidebar,
-    isOpen,
-    setIsOpen,
-}) => {
+export const DefaultLayout = () => {
     const theme = useThemeStore((state) => state.theme); // "Sun"
+    const [showSidebar, setShowSidebar] = useState(true);
 
     return (
         <>

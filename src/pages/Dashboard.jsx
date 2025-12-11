@@ -52,12 +52,10 @@ export const Dashboard = ({
         <>
             <div className="flex-1">
                 <Header
-                    userFirstName={userFirstName}
-                    userLastName={userLastName}
-                    userEmail={userEmail}
-                    userImg={userImg}
-                    setShowSidebar={setShowSidebar}
-                    showSidebar={showSidebar}
+                    userFirstName={user?.first_name}
+                    userLastName={user?.last_name}
+                    userEmail={user?.email}
+                    userImg={user?.img}
                 />
 
                 <div className="flex justify-end pr-7 gap-3">
