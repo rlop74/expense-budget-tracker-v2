@@ -3,9 +3,10 @@ import { RouterProvider } from "react-router";
 import axios from "axios";
 
 import { router } from "./routes/router";
+import { useUserStore } from "./stores/user-store";
 
 function App() {
-    
+    const setUser = useUserStore((state) => state.setUser);
 
     const fetchUserById = async () => {
         try {
