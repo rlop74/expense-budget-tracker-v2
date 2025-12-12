@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router";
 
+import RouteErrorBoundary from "../pages/RouteErrorBoundary"
 import { Landing } from "../pages/Landing";
+import { SignUp } from "../pages/SignUp";
 import { Login } from "../pages/Login";
 import { Protected } from "../layout/Protected";
 import { DefaultLayout } from "../layout/DefaultLayout";
@@ -14,9 +16,11 @@ import { Settings } from "../pages/Settings";
 
 export const router = createBrowserRouter([
     { path: "/", Component: Landing },
+    { path: "/signup", Component: SignUp },
     { path: "/login", Component: Login },
     {
         Component: Protected,
+        ErrorBoundary: RouteErrorBoundary,
         children: [
             {
                 Component: DefaultLayout,
