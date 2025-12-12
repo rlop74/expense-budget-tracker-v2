@@ -16,7 +16,7 @@ import { Settings } from "../pages/Settings";
 
 export const router = createBrowserRouter([
     { path: "/", Component: Landing },
-    { path: "/signup", Component: SignUp },
+    { path: "/sign-up", Component: SignUp },
     { path: "/login", Component: Login },
     {
         Component: Protected,

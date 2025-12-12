@@ -76,7 +76,7 @@ export const Login = () => {
                 <p className="text-center mt-2">
                     Don't have an account?{" "}
                     <Link
-                        to="/signup"
+                        to="/sign-up"
                         className="text-blue-500 hover:text-blue-300"
                     >
                         Sign Up
