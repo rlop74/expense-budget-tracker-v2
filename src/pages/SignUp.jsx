@@ -8,17 +8,26 @@ export const SignUp = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [loading, setLoading] = useState(false);
-    const handleSignup = async () => {
+
+    const handleSignup = async (e) => {
+        e.preventDefault();
+
         const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-            option: {
+            email,
+            password,
+            options: {
                 data: {
                     first_name: firstName,
                     last_name: lastName,
-                }
-            }
+                },
+            },
         });
+
+        if (error) {
+            alert(error.message);
+        } else {
+            alert("Check your email for confirmation link!");
+        }
     };
 
     return (
@@ -65,7 +74,7 @@ export const SignUp = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 cursor-pointer"
+                    className="w-full bg-violet-500 text-white py-2 rounded cursor-pointer"
                 >
                     {loading ? "Signing up..." : "Sign Up"}
                 </button>

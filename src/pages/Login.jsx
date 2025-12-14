@@ -26,18 +26,25 @@ export const Login = () => {
                 setLoading(false);
                 return;
             }
-            setUser(data);
-            setLoading(false);
 
-            // success, supabase handles session
-            console.log("Successfully logged in!", data.user);
+            const response = await supabase
+                .from("user_profiles")
+                .select("*")
+                .eq("auth_id", data.user.id)
+                .single(); // retrieve one row of data -- https://supabase.com/docs/reference/javascript/single
 
-            // AuthLayout will automatically redirect to Dashboard
-            if (data.user) {
-                navigate("/dashboard");
+            if (response.error) {
+                alert(response.error.message);
+                setLoading(false);
+                return;
             }
+
+            setUser(response.data); // set user to public table's data
+            setLoading(false);
+            navigate("/dashboard"); // redirect to /dashboard
         } catch (err) {
             setLoading(false);
+            alert("Something went wrong");
             throw new Error(err);
         }
     };
@@ -68,7 +75,7 @@ export const Login = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 cursor-pointer"
+                    className="w-full bg-violet-500 text-white py-2 rounded cursor-pointer"
                 >
                     {loading ? "Logging in..." : "Login"}
                 </button>

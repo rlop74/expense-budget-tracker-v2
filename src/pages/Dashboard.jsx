@@ -112,7 +112,7 @@ export const Dashboard = ({
                     />
                     <SmallCard
                         title="Income"
-                        amount={user.income.toLocaleString()}
+                        amount={Number(user.income).toLocaleString()}
                     />
                     <SmallCard
                         title="Total Expense"
