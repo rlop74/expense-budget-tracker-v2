@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useUserStore } from "../stores/user-store";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 export const Login = () => {
     const [email, setEmail] = useState("");
@@ -26,19 +27,17 @@ export const Login = () => {
                 return;
             }
 
-            const response = await supabase
-                .from("user_profiles")
-                .select("*")
-                .eq("auth_id", data.user.id)
-                .single(); // retrieve one row of data -- https://supabase.com/docs/reference/javascript/single
+            const { data: profile, error: profileError } = await axios.get(
+                `http://localhost:3000/users/${data.user.id}`
+            );
 
-            if (response.error) {
-                alert(response.error.message);
+            if (profileError) {
                 setLoading(false);
+                alert("Something went wrong", profileError.message);
                 return;
             }
 
-            setUser(response.data); // set user to public table's data
+            setUser(profile); // set user to public table's data
             setLoading(false);
             navigate("/dashboard"); // redirect to /dashboard
         } catch (err) {
