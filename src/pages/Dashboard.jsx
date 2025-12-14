@@ -18,13 +18,13 @@ import { RecentTransactions } from "../components/RecentTransactions";
 
 export const Dashboard = () => {
     const user = useUserStore((state) => state.user);
+    const [isUpdateIncomeBtnOpen, setIsUpdateIncomeBtnOpen] = useState(false);
     const [addExpenseBtn, setAddExpenseBtn] = useState(false);
     const totalExpense = useExpenses((state) => state.totalExpense);
     const setAllExpenses = useExpenses((state) => state.setAllExpenses);
     const setTotalExpense = useExpenses((state) => state.setTotalExpense);
     const [addSavingsBtn, setAddSavingsBtn] = useState(false);
     const totalSavings = useTotalSavings((state) => state.totalSavings);
-    const [updateIncomeBtn, setUpdateIncomeBtn] = useState(false);
     const totalBalance = user.income - (totalExpense + totalSavings);
 
     const fetchExpenses = async () => {
@@ -64,7 +64,7 @@ export const Dashboard = () => {
                     </button>
 
                     <button
-                        onClick={() => setUpdateIncomeBtn(true)}
+                        onClick={() => setIsUpdateIncomeBtnOpen(true)}
                         className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
                     >
                         <Coins />
@@ -87,8 +87,8 @@ export const Dashboard = () => {
                 />
 
                 <AddIncomeDialog
-                    updateIncomeBtn={updateIncomeBtn}
-                    setUpdateIncomeBtn={setUpdateIncomeBtn}
+                    isUpdateIncomeBtnOpen={isUpdateIncomeBtnOpen}
+                    setIsUpdateIncomeBtnOpen={setIsUpdateIncomeBtnOpen}
                     dialogTitle="Update Income"
                     dialog="Enter Income"
                 />
@@ -100,7 +100,7 @@ export const Dashboard = () => {
                     />
                     <SmallCard
                         title="Income"
-                        amount={Number(user.income).toLocaleString()}
+                        amount={Number(user?.income).toLocaleString()}
                     />
                     <SmallCard
                         title="Total Expense"
