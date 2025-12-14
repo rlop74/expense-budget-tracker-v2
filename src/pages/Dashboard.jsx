@@ -16,14 +16,7 @@ import { useTotalSavings } from "../stores/savings-store";
 import { useUserStore } from "../stores/user-store";
 import { RecentTransactions } from "../components/RecentTransactions";
 
-export const Dashboard = ({
-    showSidebar,
-    setShowSidebar,
-    userFirstName,
-    userLastName,
-    userEmail,
-    userImg,
-}) => {
+export const Dashboard = () => {
     const user = useUserStore((state) => state.user);
     const [addExpenseBtn, setAddExpenseBtn] = useState(false);
     const totalExpense = useExpenses((state) => state.totalExpense);
@@ -51,12 +44,7 @@ export const Dashboard = ({
     return (
         <>
             <div className="flex-1">
-                <Header
-                    userFirstName={user?.first_name}
-                    userLastName={user?.last_name}
-                    userEmail={user?.email}
-                    userImg={user?.img}
-                />
+                <Header />
 
                 <div className="flex justify-end pr-7 gap-3">
                     <button
