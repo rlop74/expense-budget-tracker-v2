@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { useTotalExpense } from "./expenses-store";
+import { useExpenses } from "./expenses-store";
 import { useTotalSavings } from "./savings-store";
 
 export const useExpenseSavings = create((...a) => ({
-    ...useTotalExpense(...a),
+    ...useExpenses(...a),
     ...useTotalSavings(...a),
 }));

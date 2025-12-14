@@ -15,7 +15,7 @@ export const AddIncomeDialog = ({
 }) => {
     const [amount, setAmount] = useState();
     const [name, setName] = useState("");
-    // const updateIncome = useIncome((state) => state.updateIncome);
+    const updateIncome = useIncome((state) => state.updateIncome);
 
     return (
         <Dialog

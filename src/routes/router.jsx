@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 
 import RouteErrorBoundary from "../pages/RouteErrorBoundary"
 import { Landing } from "../pages/Landing";

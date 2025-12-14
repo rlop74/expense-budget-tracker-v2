@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigate, Outlet } from "react-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { supabase } from "../lib/supabase.js";
 
 export const AuthLayout = () => {

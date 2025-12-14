@@ -2,7 +2,7 @@
 // should not allow user to view protected components without matching creds
 // redirect to signup or back to login page
 
-import { Outlet } from "react-router";
+import { Outlet } from "react-router-dom";
 
 import { useUserStore } from "../stores/user-store";
 
