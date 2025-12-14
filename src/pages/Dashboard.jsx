@@ -19,7 +19,7 @@ import { RecentTransactions } from "../components/RecentTransactions";
 export const Dashboard = () => {
     const user = useUserStore((state) => state.user);
     const [isUpdateIncomeBtnOpen, setIsUpdateIncomeBtnOpen] = useState(false);
-    const [addExpenseBtn, setAddExpenseBtn] = useState(false);
+    const [isAddExpenseBtnOpen, setIsAddExpenseBtnOpen] = useState(false);
     const totalExpense = useExpenses((state) => state.totalExpense);
     const setAllExpenses = useExpenses((state) => state.setAllExpenses);
     const setTotalExpense = useExpenses((state) => state.setTotalExpense);
@@ -29,7 +29,7 @@ export const Dashboard = () => {
 
     const fetchExpenses = async () => {
         try {
-            const { data } = await axios.get("http://localhost:3000/expenses");
+            const { data } = await axios.get(`http://localhost:3000/expenses/${user.id}`);
             setAllExpenses(data);
             setTotalExpense(data);
         } catch (err) {
@@ -48,7 +48,7 @@ export const Dashboard = () => {
 
                 <div className="flex justify-end pr-7 gap-3">
                     <button
-                        onClick={() => setAddExpenseBtn(true)}
+                        onClick={() => setIsAddExpenseBtnOpen(true)}
                         className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
                     >
                         <Plus />
@@ -73,8 +73,8 @@ export const Dashboard = () => {
                 </div>
 
                 <AddExpenseDialog
-                    addExpenseBtn={addExpenseBtn}
-                    setAddExpenseBtn={setAddExpenseBtn}
+                    isAddExpenseBtnOpen={isAddExpenseBtnOpen}
+                    setIsAddExpenseBtnOpen={setIsAddExpenseBtnOpen}
                     dialogTitle="Add Expense"
                     dialog="Enter expense"
                 />

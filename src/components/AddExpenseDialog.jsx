@@ -5,15 +5,18 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import { useState } from "react";
 import { useExpenses } from "../stores/expenses-store";
+import { useUserStore } from "../stores/user-store"
 import axios from "axios";
 
 export const AddExpenseDialog = ({
-    addExpenseBtn,
-    setAddExpenseBtn,
+    isAddExpenseBtnOpen,
+    setIsAddExpenseBtnOpen,
     dialogTitle,
     dialog,
 }) => {
+    const user = useUserStore((state) => state.user);
     const [newExpense, setNewExpense] = useState({
+        user_id: user.id,
         expense_name: "",
         expense_amount: "",
     });
@@ -33,6 +36,7 @@ export const AddExpenseDialog = ({
                 "http://localhost:3000/expenses/add-expense",
                 newExpense
             );
+            console.log(data);
             setAllExpenses([...allExpenses, data]);
             setTotalExpense([...allExpenses, data]);
 
@@ -42,7 +46,7 @@ export const AddExpenseDialog = ({
                 expense_amount: "",
             });
 
-            setAddExpenseBtn(false);
+            setIsAddExpenseBtnOpen(false);
         } catch (err) {
             console.error("Failed to add expense: ", err);
             alert("Something went wrong");
@@ -51,8 +55,8 @@ export const AddExpenseDialog = ({
 
     return (
         <Dialog
-            open={addExpenseBtn}
-            onClose={() => setAddExpenseBtn(false)} // Closes dialog when clicking outside or pressing Escape
+            open={isAddExpenseBtnOpen}
+            onClose={() => setIsAddExpenseBtnOpen(false)} // Closes dialog when clicking outside or pressing Escape
             aria-labelledby="dialog-title"
             aria-describedby="dialog-description"
             fullWidth={true}
@@ -92,7 +96,7 @@ export const AddExpenseDialog = ({
             <DialogActions>
                 <button
                     onClick={() => {
-                        setAddExpenseBtn(false); // close modal
+                        setIsAddExpenseBtnOpen(false); // close modal
 
                         // clear inputs on click
                         setNewExpense({
