@@ -1,13 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const useTotalSavings = create(
+export const useSavings = create(
     persist(
         (set) => ({
             totalSavings: 0,
-            addSavings: (amount) =>
-                set((state) => ({
-                    totalSavings: state.totalSavings + parseFloat(amount),
+            savings: [],
+            setSavings: (savings) =>
+                set(() => ({ savings })),
+            setTotalSavings: (savings) =>
+                set(() => ({
+                    totalSavings: savings.reduce(
+                        (acc, curr) => acc + curr.savings_amount || 0,
+                        0
+                    ),
                 })),
         }),
         {

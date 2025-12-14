@@ -12,7 +12,7 @@ import { AddSavingsDialog } from "../components/AddSavingsDialog";
 import { AddIncomeDialog } from "../components/AddIncomeDialog";
 
 import { useExpenses } from "../stores/expenses-store";
-import { useTotalSavings } from "../stores/savings-store";
+import { useSavings } from "../stores/savings-store";
 import { useUserStore } from "../stores/user-store";
 import { RecentTransactions } from "../components/RecentTransactions";
 
@@ -23,13 +23,17 @@ export const Dashboard = () => {
     const totalExpense = useExpenses((state) => state.totalExpense);
     const setAllExpenses = useExpenses((state) => state.setAllExpenses);
     const setTotalExpense = useExpenses((state) => state.setTotalExpense);
-    const [addSavingsBtn, setAddSavingsBtn] = useState(false);
-    const totalSavings = useTotalSavings((state) => state.totalSavings);
+    const [isAddSavingsBtnOpen, setIsAddSavingsBtnOpen] = useState(false);
+    const totalSavings = useSavings((state) => state.totalSavings);
+    const setTotalSavings = useSavings((state) => state.setTotalSavings);
+    const setSavings = useSavings((state) => state.setSavings);
     const totalBalance = user.income - (totalExpense + totalSavings);
 
     const fetchExpenses = async () => {
         try {
-            const { data } = await axios.get(`http://localhost:3000/expenses/${user.id}`);
+            const { data } = await axios.get(
+                `http://localhost:3000/expenses/${user.id}`
+            );
             setAllExpenses(data);
             setTotalExpense(data);
         } catch (err) {
@@ -37,8 +41,22 @@ export const Dashboard = () => {
         }
     };
 
+    const fetchSavings = async () => {
+        try {
+            const { data } = await axios.get(
+                `http://localhost:3000/savings/${user.id}`
+            );
+            setSavings(data);
+            setTotalSavings(data);
+        } catch (err) {
+            alert("Something went wrong");
+            throw new Error(err);
+        }
+    };
+
     useEffect(() => {
         fetchExpenses();
+        fetchSavings();
     }, []);
 
     return (
@@ -56,7 +74,7 @@ export const Dashboard = () => {
                     </button>
 
                     <button
-                        onClick={() => setAddSavingsBtn(true)}
+                        onClick={() => setIsAddSavingsBtnOpen(true)}
                         className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
                     >
                         <Plus />
@@ -80,8 +98,8 @@ export const Dashboard = () => {
                 />
 
                 <AddSavingsDialog
-                    addSavingsBtn={addSavingsBtn}
-                    setAddSavingsBtn={setAddSavingsBtn}
+                    isAddSavingsBtnOpen={isAddSavingsBtnOpen}
+                    setIsAddSavingsBtnOpen={setIsAddSavingsBtnOpen}
                     dialogTitle="Add Savings"
                     dialog="Enter savings"
                 />

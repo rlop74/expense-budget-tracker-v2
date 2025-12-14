@@ -5,22 +5,54 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useTotalSavings } from "../stores/savings-store";
+import { useSavings } from "../stores/savings-store";
+import { useUserStore } from "../stores/user-store";
+
+import axios from "axios";
 
 export const AddSavingsDialog = ({
-    addSavingsBtn,
-    setAddSavingsBtn,
+    isAddSavingsBtnOpen,
+    setIsAddSavingsBtnOpen,
     dialogTitle,
     dialog,
 }) => {
-    const [amount, setAmount] = useState();
-    const [name, setName] = useState("");
-    const addSavings = useTotalSavings((state) => state.addSavings);
+    const user = useUserStore((state) => state.user);
+    const savings = useSavings((state) => state.savings);
+    const setSavings = useSavings((state) => state.setSavings);
+    const setTotalSavings = useSavings((state) => state.setTotalSavings);
+    const [newSavings, setNewSavings] = useState({
+        user_id: user.id,
+        savings_amount: "",
+    });
+
+    const addSavings = async () => {
+        if (!newSavings.savings_amount) {
+            alert("Fill out amount");
+            return;
+        }
+        try {
+            const { data } = await axios.post(
+                `http://localhost:3000/savings/new-savings`,
+                newSavings
+            );
+            console.log(savings, data);
+            setSavings([...savings, data]);
+            setTotalSavings([...savings, data]);
+            setIsAddSavingsBtnOpen(false);
+            setNewSavings({
+                user_id: user.id,
+                savings_amount: "",
+            });
+        } catch (err) {
+            alert("Something went wrong");
+            throw new Error(err);
+        }
+    };
 
     return (
         <Dialog
-            open={addSavingsBtn}
-            onClose={() => setAddSavingsBtn(false)} // Closes dialog when clicking outside or pressing Escape
+            open={isAddSavingsBtnOpen}
+            onClose={() => setIsAddSavingsBtnOpen(false)} // Closes dialog when clicking outside or pressing Escape
             aria-labelledby="dialog-title"
             aria-describedby="dialog-description"
             maxWidth="sm"
@@ -37,36 +69,28 @@ export const AddSavingsDialog = ({
                         type="number"
                         placeholder={`${dialog} amount`}
                         className="border-1 p-5 rounded-full"
-                        value={amount}
-                        onChange={(event) => setAmount(event.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder={`${dialog} name`}
-                        className="border-1 p-5 rounded-full"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
+                        value={newSavings.savings_amount}
+                        onChange={(e) =>
+                            setNewSavings({
+                                ...newSavings,
+                                savings_amount: e.target.value,
+                            })
+                        }
                     />
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <button
                     onClick={() => {
-                        setAddSavingsBtn(false);
+                        setIsAddSavingsBtnOpen(false);
                         setAmount();
-                        setName();
                     }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                 >
                     Cancel
                 </button>
                 <button
-                    onClick={() => {
-                        addSavings(amount);
-                        setAddSavingsBtn(false);
-                        setAmount();
-                        setName();
-                    }}
+                    onClick={addSavings}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
                 >
