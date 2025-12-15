@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 import { Plus, Coins } from "lucide-react";
 
@@ -10,11 +9,13 @@ import { LargeCard } from "../components/LargeCard";
 import { AddExpenseDialog } from "../components/AddExpenseDialog";
 import { AddSavingsDialog } from "../components/AddSavingsDialog";
 import { AddIncomeDialog } from "../components/AddIncomeDialog";
+import { RecentTransactions } from "../components/RecentTransactions";
 
 import { useExpenses } from "../stores/expenses-store";
 import { useSavings } from "../stores/savings-store";
 import { useUserStore } from "../stores/user-store";
-import { RecentTransactions } from "../components/RecentTransactions";
+import { fetchExpenses } from "../services/expenses-api";
+import { fetchSavings } from "../services/savings-api";
 
 export const Dashboard = () => {
     const user = useUserStore((state) => state.user);
@@ -26,37 +27,22 @@ export const Dashboard = () => {
     const [isAddSavingsBtnOpen, setIsAddSavingsBtnOpen] = useState(false);
     const totalSavings = useSavings((state) => state.totalSavings);
     const setTotalSavings = useSavings((state) => state.setTotalSavings);
-    const setSavings = useSavings((state) => state.setSavings);
     const totalBalance = user.income - (totalExpense + totalSavings);
 
-    const fetchExpenses = async () => {
-        try {
-            const { data } = await axios.get(
-                `http://localhost:3000/expenses/${user.id}`
-            );
-            setAllExpenses(data);
-            setTotalExpense(data);
-        } catch (err) {
-            throw new Error(err);
-        }
+    const loadExpenses = async () => {
+        const data = await fetchExpenses(user.id);
+        setAllExpenses(data);
+        setTotalExpense(data);
     };
 
-    const fetchSavings = async () => {
-        try {
-            const { data } = await axios.get(
-                `http://localhost:3000/savings/${user.id}`
-            );
-            setSavings(data);
-            setTotalSavings(data);
-        } catch (err) {
-            alert("Something went wrong");
-            throw new Error(err);
-        }
-    };
+    const loadSavings = async () => {
+        const data = await fetchSavings(user.id);
+        setTotalSavings(data);
+    }
 
     useEffect(() => {
-        fetchExpenses();
-        fetchSavings();
+        loadExpenses();
+        loadSavings();
     }, []);
 
     return (

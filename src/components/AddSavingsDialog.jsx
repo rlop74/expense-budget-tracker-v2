@@ -5,10 +5,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useSavings } from "../stores/savings-store";
 import { useUserStore } from "../stores/user-store";
-
-import axios from "axios";
+import { addSavings } from "../services/savings-api";
+import { useSavings } from "../stores/savings-store";
 
 export const AddSavingsDialog = ({
     isAddSavingsBtnOpen,
@@ -17,36 +16,20 @@ export const AddSavingsDialog = ({
     dialog,
 }) => {
     const user = useUserStore((state) => state.user);
-    const savings = useSavings((state) => state.savings);
-    const setSavings = useSavings((state) => state.setSavings);
-    const setTotalSavings = useSavings((state) => state.setTotalSavings);
+    const addTotalSavings = useSavings((state) => state.addTotalSavings);
     const [newSavings, setNewSavings] = useState({
         user_id: user.id,
         savings_amount: "",
     });
 
-    const addSavings = async () => {
-        if (!newSavings.savings_amount) {
-            alert("Fill out amount");
-            return;
-        }
-        try {
-            const { data } = await axios.post(
-                `http://localhost:3000/savings/new-savings`,
-                newSavings
-            );
-            console.log(savings, data);
-            setSavings([...savings, data]);
-            setTotalSavings([...savings, data]);
-            setIsAddSavingsBtnOpen(false);
-            setNewSavings({
-                user_id: user.id,
-                savings_amount: "",
-            });
-        } catch (err) {
-            alert("Something went wrong");
-            throw new Error(err);
-        }
+    const handleAdd = async () => {
+        const data = await addSavings(newSavings);
+        addTotalSavings(data);
+
+        setNewSavings({
+            user_id: user.id,
+            savings_amount: "",
+        });
     };
 
     return (
@@ -90,7 +73,7 @@ export const AddSavingsDialog = ({
                     Cancel
                 </button>
                 <button
-                    onClick={addSavings}
+                    onClick={handleAdd}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
                 >

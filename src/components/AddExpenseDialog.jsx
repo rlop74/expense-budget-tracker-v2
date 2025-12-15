@@ -4,9 +4,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import { useState } from "react";
+import { useUserStore } from "../stores/user-store";
 import { useExpenses } from "../stores/expenses-store";
-import { useUserStore } from "../stores/user-store"
-import axios from "axios";
+import { addExpense } from "../services/expenses-api";
 
 export const AddExpenseDialog = ({
     isAddExpenseBtnOpen,
@@ -15,42 +15,33 @@ export const AddExpenseDialog = ({
     dialog,
 }) => {
     const user = useUserStore((state) => state.user);
+    const addNewExpense = useExpenses((state) => state.addNewExpense);
+    const setTotalExpense = useExpenses((state) => state.setTotalExpense);
     const [newExpense, setNewExpense] = useState({
         user_id: user.id,
         expense_name: "",
         expense_amount: "",
     });
-    const setAllExpenses = useExpenses((state) => state.setAllExpenses);
-    const setTotalExpense = useExpenses((state) => state.setTotalExpense);
-    const allExpenses = useExpenses((state) => state.allExpenses);
 
-    const addExpense = async () => {
+    const handleAdd = async () => {
         // Validate inputs
         if (!newExpense.expense_name.trim() || !newExpense.expense_amount) {
             alert("Please fill in all fields");
             return;
         }
 
-        try {
-            const { data } = await axios.post(
-                "http://localhost:3000/expenses/add-expense",
-                newExpense
-            );
-            console.log(data);
-            setAllExpenses([...allExpenses, data]);
-            setTotalExpense([...allExpenses, data]);
+        const data = await addExpense(newExpense);
+        if (!data) return;
+        addNewExpense(data);
 
-            // clear inputs on click
-            setNewExpense({
-                expense_name: "",
-                expense_amount: "",
-            });
-
-            setIsAddExpenseBtnOpen(false);
-        } catch (err) {
-            console.error("Failed to add expense: ", err);
-            alert("Something went wrong");
-        }
+        // clear inputs on click
+        setNewExpense({
+            user_id: user.id,
+            expense_name: "",
+            expense_amount: "",
+        });
+        
+        setIsAddExpenseBtnOpen(false);
     };
 
     return (
@@ -109,9 +100,7 @@ export const AddExpenseDialog = ({
                     Cancel
                 </button>
                 <button
-                    onClick={() => {
-                        addExpense(newExpense);
-                    }}
+                    onClick={handleAdd}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
                 >

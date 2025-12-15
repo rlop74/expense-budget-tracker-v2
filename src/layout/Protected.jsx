@@ -3,7 +3,7 @@
 // redirect to signup or back to login page
 
 import { Outlet } from "react-router-dom";
-
+import { Login } from "../pages/Login";
 import { useUserStore } from "../stores/user-store";
 
 export const Protected = () => {

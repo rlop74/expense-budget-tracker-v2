@@ -1,22 +1,9 @@
 import { useExpenses } from "../stores/expenses-store";
-import { format, formatDistanceToNow, isToday, isYesterday } from "date-fns";
+import { formatDate } from "../services/format-date";
 
 export const RecentTransactions = () => {
     const allExpenses = useExpenses((state) => state.allExpenses);
     const tableHeaders = ["Date", "Amount", "Payment name"]; // add catergory
-
-    const formatDate = (date) => {
-        const d = new Date(date);
-
-        if (isToday(d)) {
-            return formatDistanceToNow(d, { addSuffix: true }); // "5 minutes ago"
-        }
-        if (isYesterday(d)) return "Yesterday";
-        if (d.getFullYear() === new Date().getFullYear()) {
-            return format(d, "MMM d"); // "Nov 29"
-        }
-        return format(d, "MMM d, yyyy"); // "Nov 29 Nov, 2024
-    };
 
     return (
         <div className="mt-4 overflow-y-auto max-h-60">

@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUserStore } from "../stores/user-store.js";
-import axios from "axios";
+import { updateIncome } from "../services/income-api.js";
 
 export const AddIncomeDialog = ({
     isUpdateIncomeBtnOpen,
@@ -15,30 +15,6 @@ export const AddIncomeDialog = ({
     dialog,
 }) => {
     const [amount, setAmount] = useState();
-    const [name, setName] = useState("");
-    const user = useUserStore((state) => state.user);
-    const setUser = useUserStore((state) => state.setUser);
-
-    const updateIncomeInDb = async (amount) => {
-        try {
-            // update income
-            await axios.post(
-                `http://localhost:3000/users/update-income/${user.auth_id}`,
-                { updatedIncome: amount }
-            );
-
-            // fetch user again for fresh data
-            const { data } = await axios.get(
-                `http://localhost:3000/users/${user.auth_id}`
-            );
-            
-            // set fresh user
-            setUser(data);
-        } catch (err) {
-            alert("Something went wrong");
-            throw new Error(err);
-        }
-    };
 
     return (
         <Dialog
@@ -76,7 +52,7 @@ export const AddIncomeDialog = ({
                 </button>
                 <button
                     onClick={() => {
-                        updateIncomeInDb(amount);
+                        updateIncome(amount);
                         setIsUpdateIncomeBtnOpen(false);
                         setAmount();
                     }}
