@@ -30,6 +30,8 @@ export const AddSavingsDialog = ({
             user_id: user.id,
             savings_amount: "",
         });
+
+        setIsAddSavingsBtnOpen(false);
     };
 
     return (
@@ -47,7 +49,6 @@ export const AddSavingsDialog = ({
                     id="dialog-description"
                     className="flex flex-col gap-5"
                 >
-                    {/* {inputItems.map((inputItem) => <input type="number" placeholder={`${dialog} ${inputItem}`} className="border-1 w-100"/>)} */}
                     <input
                         type="number"
                         placeholder={`${dialog} amount`}

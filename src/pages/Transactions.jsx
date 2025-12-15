@@ -12,7 +12,7 @@ export const Transactions = () => {
     const setAllExpenses = useExpenses((state) => state.setAllExpenses);
     const savings = useSavings((state) => state.savings);
     const setSavings = useSavings((state) => state.setSavings);
-    // const transactions = [...allExpenses, ...savings];
+    const transactions = [...allExpenses, ...savings];
 
     const loadExpenses = async () => {
         const expenses = await fetchExpenses(user.id);
@@ -33,31 +33,28 @@ export const Transactions = () => {
         <div className="min-h-screen p-2">
             <h1 className="text-4xl">Transactions</h1>
 
-            {allExpenses.map((expense) => (
-                <div
-                    key={expense.id}
-                    className="grid grid-cols-3 border-b-1 p-4"
-                >
-                    <div className="text-red-400">
-                        -{expense.expense_amount}
+            {transactions
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                .map((transaction) => (
+                    <div
+                        key={transaction.id}
+                        className="grid grid-cols-3 border-b-1 p-4"
+                    >
+                        {transaction.expense_amount ? (
+                            <div className="text-red-400">
+                                {transaction.expense_amount}
+                            </div>
+                        ) : (
+                            <div className="text-green-400">
+                                {transaction.savings_amount}
+                            </div>
+                        )}
+                        <div>
+                            {transaction.expense_name || transaction.name}
+                        </div>
+                        <div>{formatDate(transaction.created_at)}</div>
                     </div>
-                    <div>{expense.expense_name}</div>
-                    <div>{formatDate(expense.created_at)}</div>
-                </div>
-            ))}
-
-            {savings.map((saving) => (
-                <div
-                    key={saving.id}
-                    className="grid grid-cols-3 border-b-1 p-4"
-                >
-                    <div className="text-green-400">
-                        -{saving.savings_amount}
-                    </div>
-                    <div>{saving.name}</div>
-                    <div>{formatDate(saving.created_at)}</div>
-                </div>
-            ))}
+                ))}
         </div>
     );
 };
