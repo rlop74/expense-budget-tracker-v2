@@ -28,9 +28,11 @@ export const Dashboard = () => {
     const setAllExpenses = useExpenses((state) => state.setAllExpenses);
     const setTotalExpense = useExpenses((state) => state.setTotalExpense);
     const [isAddSavingsBtnOpen, setIsAddSavingsBtnOpen] = useState(false);
+    const setSavings = useSavings((state) => state.setSavings);
     const totalSavings = useSavings((state) => state.totalSavings);
     const setTotalSavings = useSavings((state) => state.setTotalSavings);
     const totalBalance = user.income - (totalExpense + totalSavings);
+    // const [loading, setLoading] = useState(false); // for RecentTransactions
 
     const loadExpenses = async () => {
         const data = await fetchExpenses(user.id);
@@ -41,11 +43,15 @@ export const Dashboard = () => {
     const loadSavings = async () => {
         const data = await fetchSavings(user.id);
         setTotalSavings(data);
+        setSavings(data);
     };
 
     useEffect(() => {
-        loadExpenses();
-        loadSavings();
+        const load = async () => {
+            // execute both functions concurrently and wait for both to complete successfully
+            await Promise.all([loadExpenses(), loadSavings()]);
+        };
+        load();
     }, []);
 
     return (
@@ -134,6 +140,7 @@ export const Dashboard = () => {
                     <LargeCard
                         title="Recent transactions"
                         content={<RecentTransactions />}
+                        // loading={loading}
                     />
 
                     <MediumCard

@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+// import { persist } from "zustand/middleware";
 
 export const useSavings = create(
     // persist(
     (set) => ({
         totalSavings: 0,
         savings: [],
-        setSavings: (savings) => set(() => ({ savings })),
+        setSavings: (savingsObj) => set(() => ({ savings: savingsObj })),
         setTotalSavings: (savings) =>
             set(() => ({
                 totalSavings: savings.reduce(
