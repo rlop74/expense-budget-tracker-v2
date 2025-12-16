@@ -8,7 +8,7 @@ import { Protected } from "../layout/Protected";
 import { DefaultLayout } from "../layout/DefaultLayout";
 import { Dashboard } from "../pages/Dashboard";
 import { Transactions } from "../pages/Transactions";
-import { Wallet } from "../pages/Wallet";
+import { Bills } from "../pages/Bills";
 import { Goals } from "../pages/Goals";
 import { Budget } from "../pages/Budget";
 import { Analytics } from "../pages/Analytics";
@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
                 children: [
                     { path: "/dashboard", Component: Dashboard },
                     { path: "/transactions", Component: Transactions },
-                    { path: "/wallet", Component: Wallet },
+                    { path: "/bills", Component: Bills },
                     { path: "/goals", Component: Goals },
                     { path: "/budget", Component: Budget },
                     { path: "/analytics", Component: Analytics },

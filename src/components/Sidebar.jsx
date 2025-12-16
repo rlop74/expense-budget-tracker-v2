@@ -27,7 +27,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
             name: "Transactions",
             path: "/transactions",
         },
-        { icon: <Wallet />, name: "Wallet", path: "/wallet" },
+        { icon: <Wallet />, name: "Bills", path: "/bills" },
         { icon: <Goal />, name: "Goals", path: "/goals" },
         { icon: <HandCoins />, name: "Budget", path: "/budget" },
         {
