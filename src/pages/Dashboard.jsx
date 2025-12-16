@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { Plus, Coins } from "lucide-react";
 
@@ -15,8 +15,6 @@ import { MoneyFlowChart } from "../components/MoneyFlowChart";
 import { useExpenses } from "../stores/expenses-store";
 import { useSavings } from "../stores/savings-store";
 import { useUserStore } from "../stores/user-store";
-import { fetchExpenses } from "../services/expenses-api";
-import { fetchSavings } from "../services/savings-api";
 import { SpendingPieChart } from "../components/SpendingPieChart";
 import { SavingGoals } from "../components/SavingGoals";
 
@@ -25,34 +23,10 @@ export const Dashboard = () => {
     const [isUpdateIncomeBtnOpen, setIsUpdateIncomeBtnOpen] = useState(false);
     const [isAddExpenseBtnOpen, setIsAddExpenseBtnOpen] = useState(false);
     const totalExpense = useExpenses((state) => state.totalExpense);
-    const setAllExpenses = useExpenses((state) => state.setAllExpenses);
-    const setTotalExpense = useExpenses((state) => state.setTotalExpense);
     const [isAddSavingsBtnOpen, setIsAddSavingsBtnOpen] = useState(false);
-    const setSavings = useSavings((state) => state.setSavings);
     const totalSavings = useSavings((state) => state.totalSavings);
-    const setTotalSavings = useSavings((state) => state.setTotalSavings);
     const totalBalance = user.income - (totalExpense + totalSavings);
     // const [loading, setLoading] = useState(false); // for RecentTransactions
-
-    const loadExpenses = async () => {
-        const data = await fetchExpenses(user.id);
-        setAllExpenses(data);
-        setTotalExpense(data);
-    };
-
-    const loadSavings = async () => {
-        const data = await fetchSavings(user.id);
-        setTotalSavings(data);
-        setSavings(data);
-    };
-
-    useEffect(() => {
-        const load = async () => {
-            // execute both functions concurrently and wait for both to complete successfully
-            await Promise.all([loadExpenses(), loadSavings()]);
-        };
-        load();
-    }, []);
 
     return (
         <>
