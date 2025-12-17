@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import RouteErrorBoundary from "../pages/RouteErrorBoundary"
+import RouteErrorBoundary from "../pages/RouteErrorBoundary";
 import { Landing } from "../pages/Landing";
 import { SignUp } from "../pages/SignUp";
 import { Login } from "../pages/Login";
@@ -13,6 +13,7 @@ import { Goals } from "../pages/Goals";
 import { Budget } from "../pages/Budget";
 import { Analytics } from "../pages/Analytics";
 import { Settings } from "../pages/Settings";
+import { Help } from "../pages/Help";
 
 export const router = createBrowserRouter([
     { path: "/", Component: Landing },
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
                     { path: "/budget", Component: Budget },
                     { path: "/analytics", Component: Analytics },
                     { path: "/settings", Component: Settings },
+                    { path: "/help", Component: Help },
                 ],
             },
         ],

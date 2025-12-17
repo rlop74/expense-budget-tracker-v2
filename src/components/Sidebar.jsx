@@ -77,10 +77,17 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
 
                 <div className="flex flex-col text-m gap-20">
                     <div>
-                        <button className="flex gap-2 p-4 rounded-l-full rounded-r-full w-full">
+                        <NavLink
+                            to="/help"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "bg-violet-500 text-white flex gap-2 p-4 rounded-l-full rounded-r-full w-full transition-all duration-100 ease-in-out"
+                                    : "flex gap-2 p-4 rounded-l-full rounded-r-full w-full hover:bg-violet-500/30 transition-all duration-300 ease-in-out"
+                            }
+                        >
                             <MessageCircleQuestionMark />
                             Help
-                        </button>
+                        </NavLink>
                         <button className="flex gap-2 p-4 rounded-l-full rounded-r-full w-full">
                             <LogOut />
                             Logout
