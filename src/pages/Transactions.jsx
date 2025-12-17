@@ -1,11 +1,11 @@
 import { useExpenses } from "../stores/expenses-store";
 import { useSavings } from "../stores/savings-store";
+import { useAppStore } from "../stores/app-store";
 import { formatDate } from "../services/format-date"; // data-fns
 
-export const Transactions = ({ loading }) => {
-    const allExpenses = useExpenses((state) => state.allExpenses);
-    const savings = useSavings((state) => state.savings);
-    const transactions = [...allExpenses, ...savings];
+export const Transactions = () => {
+    const loading = useAppStore((state) => state.loading);
+    const allTransactions = useAppStore((state) => state.allTransactions);
 
     return (
         <div className="p-8">
@@ -21,39 +21,43 @@ export const Transactions = ({ loading }) => {
                 </div>
 
                 {loading ? (
-                    <p className="text-center text-gray-500 mt-10">
+                    <p className="text-center text-gray-500 m-10">
                         Loading transactions...
                     </p>
-                ) : transactions.length === 0 ? (
+                ) : allTransactions.length === 0 ? (
                     <p className="text-center text-gray-500 mt-10">
                         No transactions yet
                     </p>
                 ) : (
-                    transactions
+                    allTransactions
                         .sort(
                             (a, b) =>
                                 new Date(b.created_at) - new Date(a.created_at)
                         )
-                        .map((t) => (
+                        .map((transaction) => (
                             <div className="grid grid-cols-4 p-4 border-b hover:bg-gray-100">
-                                <div>{formatDate(t.created_at)}</div>
+                                <div>{formatDate(transaction.created_at)}</div>
                                 <div
                                     className={
-                                        t.expense_amount
+                                        transaction.expense_amount
                                             ? "text-red-600"
                                             : "text-green-600"
                                     }
                                 >
-                                    {t.expense_amount ? "-" : "+"}
+                                    {transaction.expense_amount ? "-" : "+"}
                                     {Number(
-                                        t.expense_amount || t.savings_amount
+                                        transaction.expense_amount ||
+                                            transaction.savings_amount
                                     ).toFixed(2)}
                                 </div>
                                 <div className="capitalize">
-                                    {t.expense_name || t.name}
+                                    {transaction.expense_name ||
+                                        transaction.name}
                                 </div>
                                 <div className="">
-                                    {t.expense_amount ? "Expense" : "Savings"}
+                                    {transaction.expense_amount
+                                        ? "Expense"
+                                        : "Savings"}
                                 </div>
                             </div>
                         ))

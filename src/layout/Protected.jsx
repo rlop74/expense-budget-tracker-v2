@@ -10,6 +10,7 @@ import { useExpenses } from "../stores/expenses-store";
 import { useSavings } from "../stores/savings-store";
 import { fetchExpenses } from "../services/expenses-api";
 import { fetchSavings } from "../services/savings-api";
+import { useAppStore } from "../stores/app-store";
 
 export const Protected = () => {
     const user = useUserStore((state) => state.user);
@@ -17,34 +18,28 @@ export const Protected = () => {
     const setTotalExpense = useExpenses((state) => state.setTotalExpense);
     const setTotalSavings = useSavings((state) => state.setTotalSavings);
     const setSavings = useSavings((state) => state.setSavings);
-    const [loading, setLoading] = useState(true);
+    const allTransactions = useAppStore((state) => state.allTransactions);
+    const setAllTransactions = useAppStore((state) => state.setAllTransactions);
+    const setLoading = useAppStore((state) => state.setLoading);
+    const loading = useAppStore((state) => state.loading);
 
-    const loadExpenses = async () => {
-        const data = await fetchExpenses(user.id);
-        setAllExpenses(data);
-        setTotalExpense(data);
-    };
-
-    const loadSavings = async () => {
-        const data = await fetchSavings(user.id);
-        setTotalSavings(data);
-        setSavings(data);
+    const loadTransactions = async () => {
+        const savingsData = await fetchSavings(user.id);
+        const expenseData = await fetchExpenses(user.id);
+        setAllExpenses(expenseData);
+        setTotalExpense(expenseData);
+        setTotalSavings(savingsData);
+        setSavings(savingsData);
+        setAllTransactions([...expenseData, ...savingsData]);
+        setLoading(false);
     };
 
     useEffect(() => {
-        const load = async () => {
-            setLoading(true);
-
-            // execute both functions concurrently and wait for both to complete successfully
-            await Promise.all([loadExpenses(), loadSavings()]);
-
-            setLoading(false);
-        };
-        load();
+        loadTransactions();
     }, []);
 
     if (user) {
-        return <Outlet loading={loading}/>;
+        return <Outlet context={{ allTransactions }} />;
     }
 
     return <Login />;
