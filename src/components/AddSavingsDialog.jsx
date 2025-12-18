@@ -19,7 +19,7 @@ export const AddSavingsDialog = ({
     const addTotalSavings = useSavings((state) => state.addTotalSavings);
     const [newSavings, setNewSavings] = useState({
         user_id: user.id,
-        savings_amount: "",
+        amount: "",
     });
 
     const handleAdd = async () => {
@@ -28,7 +28,7 @@ export const AddSavingsDialog = ({
 
         setNewSavings({
             user_id: user.id,
-            savings_amount: "",
+            amount: "",
         });
 
         setIsAddSavingsBtnOpen(false);
@@ -53,11 +53,11 @@ export const AddSavingsDialog = ({
                         type="number"
                         placeholder={`${dialog} amount`}
                         className="border-1 p-5 rounded-full"
-                        value={newSavings.savings_amount}
+                        value={newSavings.amount}
                         onChange={(e) =>
                             setNewSavings({
                                 ...newSavings,
-                                savings_amount: e.target.value,
+                                amount: e.target.value,
                             })
                         }
                     />

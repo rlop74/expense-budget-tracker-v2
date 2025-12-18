@@ -19,13 +19,13 @@ export const AddExpenseDialog = ({
     const setTotalExpense = useExpenses((state) => state.setTotalExpense);
     const [newExpense, setNewExpense] = useState({
         user_id: user.id,
-        expense_name: "",
-        expense_amount: "",
+        name: "",
+        amount: "",
     });
 
     const handleAdd = async () => {
         // Validate inputs
-        if (!newExpense.expense_name.trim() || !newExpense.expense_amount) {
+        if (!newExpense.name.trim() || !newExpense.amount) {
             alert("Please fill in all fields");
             return;
         }
@@ -37,8 +37,8 @@ export const AddExpenseDialog = ({
         // clear inputs on click
         setNewExpense({
             user_id: user.id,
-            expense_name: "",
-            expense_amount: "",
+            name: "",
+            amount: "",
         });
         
         setIsAddExpenseBtnOpen(false);
@@ -62,11 +62,11 @@ export const AddExpenseDialog = ({
                         type="number"
                         placeholder={`${dialog} amount`}
                         className="border-1 p-5 rounded-full"
-                        value={newExpense.expense_amount}
+                        value={newExpense.amount}
                         onChange={(e) =>
                             setNewExpense({
                                 ...newExpense,
-                                expense_amount: e.target.value,
+                                amount: e.target.value,
                             })
                         }
                     />
@@ -74,11 +74,11 @@ export const AddExpenseDialog = ({
                         type="text"
                         placeholder={`${dialog} name`}
                         className="border-1 p-5 rounded-full"
-                        value={newExpense.expense_name}
+                        value={newExpense.name}
                         onChange={(e) =>
                             setNewExpense({
                                 ...newExpense,
-                                expense_name: e.target.value,
+                                name: e.target.value,
                             })
                         }
                     />
@@ -91,8 +91,8 @@ export const AddExpenseDialog = ({
 
                         // clear inputs on click
                         setNewExpense({
-                            expense_name: "",
-                            expense_amount: "",
+                            name: "",
+                            amount: "",
                         });
                     }}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"

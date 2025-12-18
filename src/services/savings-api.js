@@ -13,7 +13,7 @@ export const fetchSavings = async (id) => {
 };
 
 export const addSavings = async (newSavings) => {
-    if (!newSavings.savings_amount) {
+    if (!newSavings.amount) {
         alert("Fill out amount");
         return;
     }
