@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUserStore } from "../stores/user-store.js";
 import { updateIncome } from "../services/income-api.js";
+import axios from "axios";
 
 export const AddIncomeDialog = ({
     isUpdateIncomeBtnOpen,
@@ -15,6 +16,17 @@ export const AddIncomeDialog = ({
     dialog,
 }) => {
     const [amount, setAmount] = useState();
+    const user = useUserStore((state) => state.user);
+
+    const handleIncome = () => {
+        if (!amount) {
+            alert("Please enter income");
+            return;
+        }
+        updateIncome(amount, user.auth_id);
+        setIsUpdateIncomeBtnOpen(false);
+        setAmount();
+    };
 
     return (
         <Dialog
@@ -51,11 +63,7 @@ export const AddIncomeDialog = ({
                     Cancel
                 </button>
                 <button
-                    onClick={() => {
-                        updateIncome(amount);
-                        setIsUpdateIncomeBtnOpen(false);
-                        setAmount();
-                    }}
+                    onClick={handleIncome}
                     className="border-1 border-gray-300 p-2 rounded-xl bg-violet-500/30"
                     autoFocus
                 >
