@@ -13,14 +13,14 @@ export const useExpenses = create(
         setTotalExpense: (expenses) =>
             set((state) => ({
                 totalExpense: expenses.reduce(
-                    (acc, curr) => acc + Number(curr?.expense_amount || 0),
+                    (acc, curr) => acc + Number(curr?.amount || 0),
                     0
                 ),
             })),
         addNewExpense: (expense) =>
             set((state) => ({
                 allExpenses: [...state.allExpenses, expense],
-                totalExpense: Number(state.totalExpense) + Number(expense.expense_amount),
+                totalExpense: Number(state.totalExpense) + Number(expense.amount),
             })),
     })
     // {

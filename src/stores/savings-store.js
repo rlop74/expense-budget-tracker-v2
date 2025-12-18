@@ -10,7 +10,7 @@ export const useSavings = create(
         setTotalSavings: (savings) =>
             set(() => ({
                 totalSavings: savings.reduce(
-                    (acc, curr) => acc + curr.savings_amount || 0,
+                    (acc, curr) => acc + curr.amount || 0,
                     0
                 ),
             })),
@@ -18,7 +18,7 @@ export const useSavings = create(
             set((state) => ({
                 totalSavings:
                     Number(state.totalSavings) +
-                    Number(newSavings.savings_amount),
+                    Number(newSavings.amount),
                 savings: [...state.savings, newSavings],
             })),
     })

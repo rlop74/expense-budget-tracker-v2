@@ -36,26 +36,29 @@ export const Transactions = () => {
                         )
                         .map((transaction) => (
                             <div className="grid grid-cols-4 p-4 border-b hover:bg-gray-100">
+                                {/* Date column */}
                                 <div>{formatDate(transaction.created_at)}</div>
+
+                                {/* Amount column */}
                                 <div
                                     className={
-                                        transaction.expense_amount
+                                        transaction.type === "expense"
                                             ? "text-red-600"
                                             : "text-green-600"
                                     }
                                 >
-                                    {transaction.expense_amount ? "-" : "+"}
-                                    {Number(
-                                        transaction.expense_amount ||
-                                            transaction.savings_amount
-                                    ).toFixed(2)}
+                                    {transaction.type === "expense" ? "-" : "+"}
+                                    {Number(transaction.amount).toFixed(2)}
                                 </div>
+
+                                {/* Name column */}
                                 <div className="capitalize">
-                                    {transaction.expense_name ||
-                                        transaction.name}
+                                    {transaction.name}
                                 </div>
+
+                                {/* Type column */}
                                 <div className="">
-                                    {transaction.expense_amount
+                                    {transaction.type === "expense"
                                         ? "Expense"
                                         : "Savings"}
                                 </div>

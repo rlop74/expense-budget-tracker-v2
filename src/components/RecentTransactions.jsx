@@ -12,6 +12,7 @@ export const RecentTransactions = () => {
 
     return (
         <div className="mt-4 overflow-y-auto max-h-60">
+            {/* Table Title row */}
             <div className="grid grid-cols-3 bg-violet-50 p-3 text-violet-800 font-semibold rounded-full sticky top-0">
                 {tableHeaders.map((header, index) => (
                     <header
@@ -22,6 +23,8 @@ export const RecentTransactions = () => {
                     </header>
                 ))}
             </div>
+
+            {/* Table Contents */}
             <div className="p-5">
                 {loading ? (
                     <p className="text-center text-gray-500 mt-10">
@@ -46,20 +49,16 @@ export const RecentTransactions = () => {
                                 <p>{formatDate(transaction.created_at)}</p>
                                 <p
                                     className={`text-center font-bold ${
-                                        transaction.expense_amount
+                                        transaction.type === "expense"
                                             ? "text-red-600"
                                             : "text-green-600"
                                     }`}
                                 >
-                                    {transaction.expense_amount ? "-" : "+"}
-                                    {Number(
-                                        transaction.expense_amount ||
-                                            transaction.savings_amount
-                                    ).toFixed(2)}
+                                    {transaction.type === "expense" ? "-" : "+"}
+                                    {Number(transaction.amount).toFixed(2)}
                                 </p>
                                 <p className="text-right capitalize">
-                                    {transaction.expense_name ||
-                                        transaction.name}
+                                    {transaction.name}
                                 </p>
                             </li>
                         ))
