@@ -29,7 +29,7 @@ export const SavingGoals = () => {
                                 style={{ width: `${percentage}%` }}
                             />
                             {/* Percentage */}
-                            <div className={`flex inset-0 justify-center text-sm font-medium absolute ${percentage > 45 ? "text-white" : "text-gray-600"}`}>
+                            <div className="text-center text-sm font-medium text-white inset-0 absolute">
                                 {percentage.toFixed(0)}%
                             </div>
                         </div>
