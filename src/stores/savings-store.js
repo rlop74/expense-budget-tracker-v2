@@ -5,7 +5,7 @@ export const useSavings = create(
     // persist(
     (set) => ({
         totalSavings: 0,
-        savings: [],
+        allSavings: [],
         setSavings: (savingsObj) => set(() => ({ savings: savingsObj })),
         setTotalSavings: (savings) =>
             set(() => ({

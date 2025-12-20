@@ -5,8 +5,8 @@ import { useAppStore } from "../stores/app-store";
 
 export const RecentTransactions = () => {
     const allExpenses = useExpenses((state) => state.allExpenses);
-    const savings = useSavings((state) => state.savings);
-    const transactions = [...allExpenses, ...savings];
+    const allSavings = useSavings((state) => state.allSavings);
+    const transactions = [...allExpenses, ...allSavings];
     const tableHeaders = ["Date", "Amount", "Payment name"]; // add catergory
     const loading = useAppStore((state) => state.loading);
 
