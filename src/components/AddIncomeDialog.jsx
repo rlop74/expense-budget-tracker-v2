@@ -3,11 +3,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUserStore } from "../stores/user-store.js";
 import { updateIncome } from "../services/income-api.js";
-import axios from "axios";
 
 export const AddIncomeDialog = ({
     isUpdateIncomeBtnOpen,
@@ -17,6 +15,7 @@ export const AddIncomeDialog = ({
 }) => {
     const [amount, setAmount] = useState();
     const user = useUserStore((state) => state.user);
+    const setUser = useUserStore((state) => state.setUser);
 
     const handleIncome = () => {
         if (!amount) {
@@ -24,6 +23,7 @@ export const AddIncomeDialog = ({
             return;
         }
         updateIncome(amount, user.auth_id);
+        setUser({ ...user, income: amount });
         setIsUpdateIncomeBtnOpen(false);
         setAmount();
     };
