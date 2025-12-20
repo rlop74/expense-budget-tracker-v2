@@ -1,12 +1,8 @@
-import { useExpenses } from "../stores/expenses-store";
 import { formatDate } from "../services/format-date";
-import { useSavings } from "../stores/savings-store";
 import { useAppStore } from "../stores/app-store";
 
 export const RecentTransactions = () => {
-    const allExpenses = useExpenses((state) => state.allExpenses);
-    const allSavings = useSavings((state) => state.allSavings);
-    const transactions = [...allExpenses, ...allSavings];
+    const transactions = useAppStore((state) => state.allTransactions)
     const tableHeaders = ["Date", "Amount", "Payment name"]; // add catergory
     const loading = useAppStore((state) => state.loading);
 

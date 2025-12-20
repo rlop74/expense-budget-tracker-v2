@@ -1,5 +1,3 @@
-import { useExpenses } from "../stores/expenses-store";
-import { useSavings } from "../stores/savings-store";
 import { useAppStore } from "../stores/app-store";
 import { formatDate } from "../services/format-date"; // data-fns
 
