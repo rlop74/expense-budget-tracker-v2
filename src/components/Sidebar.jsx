@@ -88,7 +88,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
                 </div>
 
                 {/* bottom section */}
-                <div className="flex flex-col text-m gap-15">
+                <div className="flex flex-col text-m gap-15 border-t border-gray-700 pt-10">
                     <div>
                         <NavLink
                             to="/help"
@@ -110,7 +110,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
                     </div>
 
                     {/* theme toggle */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 pb-4">
                         <button
                             onClick={() => changeTheme("light")}
                             className={`p-2 rounded-lg transition-all ${
@@ -134,12 +134,18 @@ export const Sidebar = ({ showSidebar, setShowSidebar, theme }) => {
                     </div>
                 </div>
             </div>
+
+            {/* sidebar toggle button */}
             <div className="inline">
                 <button
                     onClick={() => setShowSidebar(!showSidebar)}
-                    className="p-1 bg-gray-900 text-gray-100 rounded-br-xl"
+                    className="p-3 bg-gray-800/80 text-white rounded-xl shadow-lg hover:!bg-gray-700 transition-all"
                 >
-                    {showSidebar ? <PanelLeftClose /> : <PanelLeftOpen />}
+                    {showSidebar ? (
+                        <PanelLeftClose size={20} />
+                    ) : (
+                        <PanelLeftOpen size={20} />
+                    )}
                 </button>
             </div>
         </>
