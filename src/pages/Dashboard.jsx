@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-import { Plus, Coins } from "lucide-react";
+import { Plus, Coins, PiggyBank, Receipt } from "lucide-react";
 
 import { Header } from "../components/Header";
 import { SmallCard } from "../components/SmallCard";
@@ -11,118 +10,157 @@ import { AddSavingsDialog } from "../components/AddSavingsDialog";
 import { AddIncomeDialog } from "../components/AddIncomeDialog";
 import { RecentTransactions } from "../components/RecentTransactions";
 import { MoneyFlowChart } from "../components/MoneyFlowChart";
+import { SpendingPieChart } from "../components/SpendingPieChart";
+import { SavingGoals } from "../components/SavingGoals";
 
 import { useExpenses } from "../stores/expenses-store";
 import { useSavings } from "../stores/savings-store";
 import { useUserStore } from "../stores/user-store";
-import { SpendingPieChart } from "../components/SpendingPieChart";
-import { SavingGoals } from "../components/SavingGoals";
 
 export const Dashboard = () => {
     const user = useUserStore((state) => state.user);
-    const [isUpdateIncomeBtnOpen, setIsUpdateIncomeBtnOpen] = useState(false);
-    const [isAddExpenseBtnOpen, setIsAddExpenseBtnOpen] = useState(false);
+    const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false);
+    const [isAddSavingsOpen, setIsAddSavingsOpen] = useState(false);
+    const [isUpdateIncomeOpen, setIsUpdateIncomeOpen] = useState(false);
+
     const totalExpense = useExpenses((state) => state.totalExpense);
-    const [isAddSavingsBtnOpen, setIsAddSavingsBtnOpen] = useState(false);
     const totalSavings = useSavings((state) => state.totalSavings);
     const totalBalance = user.income - (totalExpense + totalSavings);
-    // const [loading, setLoading] = useState(false); // for RecentTransactions
 
     return (
-        <>
-            <div className="flex-1">
-                <Header />
+        <div className="min-h-screen">
+            <Header />
 
-                <div className="flex justify-end pr-7 gap-3">
-                    <button
-                        onClick={() => setIsAddExpenseBtnOpen(true)}
-                        className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
-                    >
-                        <Plus />
-                        Add expense
-                    </button>
-
-                    <button
-                        onClick={() => setIsAddSavingsBtnOpen(true)}
-                        className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
-                    >
-                        <Plus />
-                        Add savings
-                    </button>
-
-                    <button
-                        onClick={() => setIsUpdateIncomeBtnOpen(true)}
-                        className="flex gap-1 bg-violet-500 p-4 rounded-full text-white"
-                    >
-                        <Coins />
-                        Update income
-                    </button>
-                </div>
-
-                <AddExpenseDialog
-                    isAddExpenseBtnOpen={isAddExpenseBtnOpen}
-                    setIsAddExpenseBtnOpen={setIsAddExpenseBtnOpen}
-                    dialogTitle="Add Expense"
-                    dialog="Enter expense"
-                />
-
-                <AddSavingsDialog
-                    isAddSavingsBtnOpen={isAddSavingsBtnOpen}
-                    setIsAddSavingsBtnOpen={setIsAddSavingsBtnOpen}
-                    dialogTitle="Add Savings"
-                    dialog="Enter savings"
-                />
-
-                <AddIncomeDialog
-                    isUpdateIncomeBtnOpen={isUpdateIncomeBtnOpen}
-                    setIsUpdateIncomeBtnOpen={setIsUpdateIncomeBtnOpen}
-                    dialogTitle="Update Income"
-                    dialog="Enter Income"
-                />
-
-                <div className="grid grid-cols-4 grid-rows-3 grid-rows-[1fr_2fr_2fr] gap-3 mt-5 m-10">
-                    {/* row 1 */}
+            {/* Main Content Container */}
+            <main className="container mx-auto px-4 py-8 md:px-6 lg:px-8">
+                {/* Summary Cards - Row 1 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <SmallCard
-                        title="Remaining balance"
+                        title="Remaining Balance"
                         amount={totalBalance.toLocaleString()}
+                        className="bg-white shadow-sm rounded-xl"
                     />
                     <SmallCard
                         title="Income"
                         amount={Number(user?.income).toLocaleString()}
+                        className="bg-white shadow-sm rounded-xl"
                     />
                     <SmallCard
-                        title="Total Expense"
+                        title="Total Expenses"
                         amount={totalExpense.toLocaleString()}
+                        className="bg-white shadow-sm rounded-xl"
                     />
                     <SmallCard
                         title="Total Savings"
                         amount={totalSavings.toLocaleString()}
-                    />
-
-                    {/* row 2 */}
-                    <LargeCard
-                        title="Money Flow"
-                        content={<MoneyFlowChart />}
-                    />
-
-                    <MediumCard
-                        title="Spending Breakdown"
-                        content={<SpendingPieChart />}
-                    />
-
-                    {/* row 3 */}
-                    <LargeCard
-                        title="Recent transactions"
-                        content={<RecentTransactions />}
-                        // loading={loading}
-                    />
-
-                    <MediumCard
-                        title="Saving goals"
-                        content={<SavingGoals />}
+                        className="bg-white shadow-sm rounded-xl"
                     />
                 </div>
+
+                {/* Charts & Lists - Responsive Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Money Flow - Larger on big screens */}
+                    <div className="lg:col-span-2">
+                        <LargeCard
+                            title="Money Flow"
+                            content={<MoneyFlowChart />}
+                            className="bg-white shadow-sm rounded-xl h-full"
+                        />
+                    </div>
+
+                    {/* Spending Breakdown */}
+                    <div className="">
+                        <MediumCard
+                            title="Spending Breakdown"
+                            content={<SpendingPieChart />}
+                            className="bg-white shadow-sm rounded-xl h-full"
+                        />
+                    </div>
+
+                    {/* Recent Transactions */}
+                    <div className="lg:col-span-2">
+                        <LargeCard
+                            title="Recent Transactions"
+                            content={<RecentTransactions />}
+                            className="bg-white shadow-sm rounded-xl h-full"
+                        />
+                    </div>
+
+                    {/* Saving Goals */}
+                    <div className="">
+                        <MediumCard
+                            title="Saving Goals"
+                            content={<SavingGoals />}
+                            className="bg-white shadow-sm rounded-xl h-full"
+                        />
+                    </div>
+                </div>
+            </main>
+
+            {/* Floating Action Buttons */}
+            <div className="fixed bottom-6 right-6 flex flex-col gap-4">
+                {/* Add Expense Button */}
+                <div className="group relative">
+                    <button
+                        onClick={() => setIsAddExpenseOpen(true)}
+                        className="flex items-center justify-center w-14 h-14 bg-red-500 text-white rounded-full shadow-lg hover:!bg-red-600 transition transform hover:scale-110"
+                        aria-label="Add expense"
+                    >
+                        <Receipt className="w-6 h-6" />
+                    </button>
+                    <span className="absolute right-16 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg whitespace-nowrap">
+                        Add Expense
+                    </span>
+                </div>
+
+                {/* Add Savings Button */}
+                <div className="group relative">
+                    <button
+                        onClick={() => setIsAddSavingsOpen(true)}
+                        className="flex items-center justify-center w-14 h-14 bg-green-500 text-white rounded-full shadow-lg hover:!bg-green-600 transition transform hover:scale-110"
+                        aria-label="Add savings"
+                    >
+                        <PiggyBank className="w-6 h-6" />
+                    </button>
+                    <span className="absolute right-16 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg whitespace-nowrap">
+                        Add Savings
+                    </span>
+                </div>
+                {/* Update Income Button */}
+                <div className="group relative">
+                    <button
+                        onClick={() => setIsUpdateIncomeOpen(true)}
+                        className="flex items-center justify-center w-14 h-14 bg-violet-600 text-white rounded-full shadow-lg hover:!bg-violet-700 transition transform hover:scale-110"
+                        aria-label="Update income"
+                    >
+                        <Coins className="w-6 h-6" />
+                    </button>
+                    {/* Tooltip */}
+                    <span className="absolute right-16 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:!opacity-100 transition-opacity bg-gray-800 text-white text-sm px-3 py-1.5 rounded-lg whitespace-nowrap">
+                        Update Income
+                    </span>
+                </div>
             </div>
-        </>
+
+            {/* Dialogs */}
+            <AddExpenseDialog
+                isAddExpenseBtnOpen={isAddExpenseOpen}
+                setIsAddExpenseBtnOpen={setIsAddExpenseOpen}
+                dialogTitle="Add Expense"
+                dialog="Enter expense"
+            />
+            <AddSavingsDialog
+                isAddSavingsBtnOpen={isAddSavingsOpen}
+                setIsAddSavingsBtnOpen={setIsAddSavingsOpen}
+                dialogTitle="Add Savings"
+                dialog="Enter savings"
+            />
+            <AddIncomeDialog
+                isUpdateIncomeBtnOpen={isUpdateIncomeOpen}
+                setIsUpdateIncomeBtnOpen={setIsUpdateIncomeOpen}
+                dialogTitle="Update Income"
+                dialog="Enter income"
+            />
+        </div>
     );
 };
