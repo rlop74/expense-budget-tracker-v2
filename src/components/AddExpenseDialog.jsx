@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useUserStore } from "../stores/user-store";
 import { useExpenses } from "../stores/expenses-store";
 import { addExpense } from "../services/expenses-api";
+import { useAppStore } from "../stores/app-store";
+import { useAccountInfo } from "../hooks/getAccountInfo";
 
 export const AddExpenseDialog = ({
     isAddExpenseBtnOpen,
@@ -16,7 +18,8 @@ export const AddExpenseDialog = ({
 }) => {
     const user = useUserStore((state) => state.user);
     const addNewExpense = useExpenses((state) => state.addNewExpense);
-    const setTotalExpense = useExpenses((state) => state.setTotalExpense);
+    const { allTransactions } = useAccountInfo();
+    const setAllTransactions = useAppStore((state) => state.setAllTransactions);
     const [newExpense, setNewExpense] = useState({
         user_id: user.id,
         name: "",
@@ -33,6 +36,7 @@ export const AddExpenseDialog = ({
         const data = await addExpense(newExpense);
         if (!data) return;
         addNewExpense(data);
+        setAllTransactions([...allTransactions, data]);
 
         // clear inputs on click
         setNewExpense({
@@ -40,7 +44,7 @@ export const AddExpenseDialog = ({
             name: "",
             amount: "",
         });
-        
+
         setIsAddExpenseBtnOpen(false);
     };
 

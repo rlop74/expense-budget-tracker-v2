@@ -8,6 +8,8 @@ import { useState } from "react";
 import { useUserStore } from "../stores/user-store";
 import { addSavings } from "../services/savings-api";
 import { useSavings } from "../stores/savings-store";
+import { useAppStore } from "../stores/app-store";
+import { useAccountInfo } from "../hooks/getAccountInfo";
 
 export const AddSavingsDialog = ({
     isAddSavingsBtnOpen,
@@ -17,6 +19,8 @@ export const AddSavingsDialog = ({
 }) => {
     const user = useUserStore((state) => state.user);
     const addTotalSavings = useSavings((state) => state.addTotalSavings);
+    const { allTransactions } = useAccountInfo();
+    const setAllTransactions = useAppStore((state) => state.setAllTransactions);
     const [newSavings, setNewSavings] = useState({
         user_id: user.id,
         amount: "",
@@ -25,6 +29,7 @@ export const AddSavingsDialog = ({
     const handleAdd = async () => {
         const data = await addSavings(newSavings);
         addTotalSavings(data);
+        setAllTransactions([...allTransactions, data])
 
         setNewSavings({
             user_id: user.id,
