@@ -63,6 +63,10 @@ export const Transactions = () => {
                     aValue = a.name.toLowerCase();
                     bValue = b.name.toLowerCase();
                     break;
+                case "category":
+                    aValue = a.category;
+                    bValue = b.category;
+                    break;
                 case "type":
                     aValue = a.type;
                     bValue = b.type;
@@ -89,11 +93,13 @@ export const Transactions = () => {
             </h1>
 
             {/* Search and Filter Controls */}
-            <div className="mb-5 flex flex-col sm:flex-row gap-4"> {/* anything larger than sm, flex-row */}
+            <div className="mb-5 flex flex-col sm:flex-row gap-4">
+                {" "}
+                {/* anything larger than sm, flex-row */}
                 <div className="flex-1">
                     <div className="relative">
                         <div className="absolute inset-y-0 pl-3 flex items-center pointer-events-none">
-                            <Search className="text-gray-400 h-5 w-5"/>
+                            <Search className="text-gray-400 h-5 w-5" />
                         </div>
                         <input
                             type="text"
@@ -104,7 +110,6 @@ export const Transactions = () => {
                         />
                     </div>
                 </div>
-
                 <div className="sm:w-64">
                     <select
                         value={typeFilter}
@@ -162,6 +167,17 @@ export const Transactions = () => {
                                         Name
                                         <span className="text-gray-400">
                                             {getSortIcon("name")}
+                                        </span>
+                                    </div>
+                                </th>
+                                <th
+                                    onClick={() => handleSort("category")}
+                                    className="px-6 py-4 text-left text-xs text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors select-none"
+                                >
+                                    <div className="flex gap-1">
+                                        Category
+                                        <span className="text-gray-400">
+                                            {getSortIcon("category")}
                                         </span>
                                     </div>
                                 </th>
@@ -232,6 +248,13 @@ export const Transactions = () => {
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-900 capitalize">
                                                 {transaction.name}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span
+                                                    className={`inline-flex px-3 py-1 text-xs font-medium rounded-full`}
+                                                >
+                                                    {transaction.category}
+                                                </span>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <span
