@@ -24,11 +24,16 @@ export const AddExpenseDialog = ({
         user_id: user.id,
         name: "",
         amount: "",
+        category: "",
     });
 
     const handleAdd = async () => {
         // Validate inputs
-        if (!newExpense.name.trim() || !newExpense.amount) {
+        if (
+            !newExpense.name.trim() ||
+            !newExpense.amount ||
+            !newExpense.category
+        ) {
             alert("Please fill in all fields");
             return;
         }
@@ -43,6 +48,7 @@ export const AddExpenseDialog = ({
             user_id: user.id,
             name: "",
             amount: "",
+            category: "",
         });
 
         setIsAddExpenseBtnOpen(false);
@@ -86,6 +92,37 @@ export const AddExpenseDialog = ({
                             })
                         }
                     />
+                    <select
+                        type="text"
+                        placeholder={`${dialog} category`}
+                        className="border-1 p-5 rounded-full"
+                        value={newExpense.category}
+                        onChange={(e) =>
+                            setNewExpense({
+                                ...newExpense,
+                                category: e.target.value,
+                            })
+                        }
+                    >
+                        <option value="">Please select...</option>
+                        <option value="Monthly Bills & Utilities">
+                            Monthly Bills & Utilities
+                        </option>
+                        <option value="Education">Education</option>
+                        <option value="Entertainment & Shopping">
+                            Entertainment & Shopping
+                        </option>
+                        <option value="Food & Groceries">
+                            Food & Groceries
+                        </option>
+                        <option value="Transport & Automotive">
+                            Transport & Automotive
+                        </option>
+                        <option value="Health & Wellness">
+                            Health & Wellness
+                        </option>
+                        <option value="Other">Other</option>
+                    </select>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
