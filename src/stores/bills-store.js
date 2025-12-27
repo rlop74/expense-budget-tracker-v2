@@ -14,4 +14,9 @@ export const useBills = create((set) => ({
         set((state) => ({
             allBills: billsArr,
         })),
+    addNewBill: (newBillObj) =>
+        set((state) => ({
+            allBills: [...state.allBills, newBillObj],
+            totalBill: Number(state.totalBill) + Number(newBillObj.amount),
+        })),
 }));
