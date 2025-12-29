@@ -3,12 +3,15 @@ import { AddBillsDialog } from "../components/AddBillDialog";
 import { useAccountInfo } from "../hooks/getAccountInfo";
 import { useBills } from "../stores/bills-store";
 import { Pencil, Trash2 } from "lucide-react";
+import { EditBillDialog } from "../components/EditBillDialog";
 
 export const Bills = () => {
     const { loading } = useAccountInfo();
     const allBills = useBills((state) => state.allBills);
     const totalBill = useBills((state) => state.totalBill);
     const [isAddBillsOpen, setIsAddBillsOpen] = useState(false);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [billToEdit, setBillToEdit] = useState(null);
 
     return (
         <div className="p-8 max-w-5xl mx-auto">
@@ -42,6 +45,14 @@ export const Bills = () => {
                     )}
                 </div>
             </div>
+
+            {isEditOpen && (
+                <EditBillDialog
+                setIsEditOpen={setIsEditOpen}
+                billToEdit={billToEdit}
+                setBillToEdit={setBillToEdit}
+                />
+            )}
 
             {/* bills list */}
             <div>
@@ -86,7 +97,17 @@ export const Bills = () => {
 
                                         {/*  action buttons */}
                                         <div>
-                                            <button className="p-2.5 rounded-lg text-gray-600 hover:!bg-gray-200 hover:!text-violet-600 transition-colors">
+                                            <button
+                                                onClick={() => {
+                                                    setIsEditOpen(!isEditOpen);
+                                                    setBillToEdit({
+                                                        id: bill.id,
+                                                        name: bill.name,
+                                                        amount: bill.amount,
+                                                    });
+                                                }}
+                                                className="p-2.5 rounded-lg text-gray-600 hover:!bg-gray-200 hover:!text-violet-600 transition-colors"
+                                            >
                                                 <Pencil
                                                     size={20}
                                                     strokeWidth={2}
