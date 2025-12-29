@@ -8,11 +8,13 @@ export const EditBillDialog = ({
 }) => {
     const allBills = useBills((state) => state.allBills);
     const setAllBills = useBills((state) => state.setAllBills);
+    const setTotalBills = useBills((state) => state.setTotalBills);
     const updatedBills = () => {
         const updatedBillsArr = allBills.map((bill) =>
             bill.id !== billToEdit.id ? bill : billToEdit
         );
         setAllBills(updatedBillsArr);
+        setTotalBills(updatedBillsArr);
     };
     // const updatedBills = () => {
     //     const updatedBillsArr = allBills.filter(

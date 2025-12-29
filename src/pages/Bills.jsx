@@ -4,14 +4,31 @@ import { useAccountInfo } from "../hooks/getAccountInfo";
 import { useBills } from "../stores/bills-store";
 import { Pencil, Trash2 } from "lucide-react";
 import { EditBillDialog } from "../components/EditBillDialog";
+import axios from "axios";
 
 export const Bills = () => {
     const { loading } = useAccountInfo();
     const allBills = useBills((state) => state.allBills);
+    const setAllBills = useBills((state) => state.setAllBills);
     const totalBill = useBills((state) => state.totalBill);
+    const setTotalBills = useBills((state) => state.setTotalBills);
     const [isAddBillsOpen, setIsAddBillsOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [billToEdit, setBillToEdit] = useState(null);
+
+    const handleDelete = async (id) => {
+        try {
+            const { data } = await axios.delete(
+                `http://localhost:3000/bills/delete-bill/${id}`
+            );
+            const updatedBills = allBills.filter((bill) => bill.id !== id);
+            setAllBills(updatedBills);
+            setTotalBills(updatedBills);
+        } catch (err) {
+            console.log("Failed to delete bill: ", err);
+            alert("Something went wrong");
+        }
+    };
 
     return (
         <div className="p-8 max-w-5xl mx-auto">
@@ -48,9 +65,9 @@ export const Bills = () => {
 
             {isEditOpen && (
                 <EditBillDialog
-                setIsEditOpen={setIsEditOpen}
-                billToEdit={billToEdit}
-                setBillToEdit={setBillToEdit}
+                    setIsEditOpen={setIsEditOpen}
+                    billToEdit={billToEdit}
+                    setBillToEdit={setBillToEdit}
                 />
             )}
 
@@ -113,7 +130,12 @@ export const Bills = () => {
                                                     strokeWidth={2}
                                                 />
                                             </button>
-                                            <button className="p-2.5 rounded-lg text-gray-600 hover:!bg-red-100 hover:!text-red-600 transition-colors">
+                                            <button
+                                                onClick={() =>
+                                                    handleDelete(bill.id)
+                                                }
+                                                className="p-2.5 rounded-lg text-gray-600 hover:!bg-red-100 hover:!text-red-600 transition-colors"
+                                            >
                                                 <Trash2
                                                     size={20}
                                                     strokeWidth={2}
