@@ -1,4 +1,6 @@
+import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { NewSavingGoal } from "../components/NewSavingGoal";
 
 const mockGoals = [
     {
@@ -14,15 +16,23 @@ const mockGoals = [
 
 export const Goals = () => {
     const [goals] = useState(mockGoals);
+    const [isNewGoalOpen, setIsNewGoalOpen] = useState(false);
 
     return (
         <div className="p-8">
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold">Saving Goals</h1>
-                <button className="bg-violet-600 text-white px-6 py-3 rounded-lg hover:bg-violet-700">
+                <button
+                    onClick={() => setIsNewGoalOpen(true)}
+                    className="bg-violet-600 text-white px-6 py-3 rounded-lg hover:bg-violet-700"
+                >
                     + New Goal
                 </button>
             </div>
+
+            {isNewGoalOpen && (
+                <NewSavingGoal setIsNewGoalOpen={setIsNewGoalOpen} />
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {goals.map((goal) => {
@@ -33,9 +43,21 @@ export const Goals = () => {
                             key={goal.id}
                             className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition"
                         >
-                            <h3 className="text-xl font-bold mb-4">
-                                {goal.name}
-                            </h3>
+                            <div className="flex justify-between">
+                                <h3 className="text-xl font-bold mb-4">
+                                    {goal.name}
+                                </h3>
+                                <div className="flex gap-3">
+                                    <Pencil
+                                        size={20}
+                                        className="text-gray-600 hover:text-violet-500 cursor-pointer"
+                                    />
+                                    <Trash2
+                                        size={20}
+                                        className="text-gray-600 hover:text-red-500 cursor-pointer"
+                                    />
+                                </div>
+                            </div>
 
                             <div className="mb-6">
                                 <div className="flex justify-between text-sm text-gray-600 mb-2">
@@ -46,7 +68,7 @@ export const Goals = () => {
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
                                     <div
-                                        className={`h-full rounded-full bg-${goal.color}-500 transition-all duration-1000`} 
+                                        className={`h-full rounded-full bg-${goal.color}-500 transition-all duration-1000`}
                                         // bg-gradient-to-r from-${goal.color}-500 to-${goal.color}-600
                                         style={{ width: `${percentage}%` }}
                                     />
@@ -57,7 +79,7 @@ export const Goals = () => {
                             </div>
 
                             <div className="flex justify-end">
-                                <button className="text-violet-600 font-medium hover:text-violet-800">
+                                <button className="text-violet-600 font-medium hover:!bg-white hover:!text-violet-800">
                                     Add money →
                                 </button>
                             </div>
