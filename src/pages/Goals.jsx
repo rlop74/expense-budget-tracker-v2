@@ -1,25 +1,26 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { NewSavingGoal } from "../components/NewSavingGoal";
 import { useGoals } from "../stores/goals-store";
 import { useAppStore } from "../stores/app-store";
-
-const mockGoals = [
-    {
-        id: 1,
-        name: "Emergency Fund",
-        target: 10000,
-        current: 6500,
-        color: "violet",
-    },
-    { id: 2, name: "Vacation", target: 5000, current: 1200, color: "violet" },
-    { id: 3, name: "New Laptop", target: 2000, current: 800, color: "violet" },
-];
+import axios from "axios";
 
 export const Goals = () => {
     const [isNewGoalOpen, setIsNewGoalOpen] = useState(false);
     const allGoals = useGoals((state) => state.allGoals);
+    const setAllGoals = useGoals((state) => state.setAllGoals);
     const loading = useAppStore((state) => state.loading);
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3000/goals/delete-goal/${id}`);
+            const updatedGoals = allGoals.filter((goal) => goal.id !== id);
+            setAllGoals(updatedGoals);
+        } catch (err) {
+            console.log("Failed to delete goal: ", err);
+            alert("Something went wrong");
+        }
+    };
 
     return (
         <div className="p-8">
@@ -73,7 +74,12 @@ export const Goals = () => {
                                     <h3 className="text-xl font-bold mb-4 capitalize">
                                         {goal.name}
                                     </h3>
+
                                     <div className="flex gap-3">
+                                        <Plus
+                                            size={20}
+                                            className="text-gray-600 hover:text-green-600 cursor-pointer"
+                                        />
                                         <Pencil
                                             size={20}
                                             className="text-gray-600 hover:text-violet-500 cursor-pointer"
@@ -81,6 +87,9 @@ export const Goals = () => {
                                         <Trash2
                                             size={20}
                                             className="text-gray-600 hover:text-red-500 cursor-pointer"
+                                            onClick={() => {
+                                                handleDelete(goal.id);
+                                            }}
                                         />
                                     </div>
                                 </div>
