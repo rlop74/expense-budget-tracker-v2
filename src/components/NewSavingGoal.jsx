@@ -1,7 +1,28 @@
+import { useState } from "react";
 import axios from "axios";
 import { useGoals } from "../stores/goals-store";
 
 export const NewSavingGoal = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
+    const addNewGoal = useGoals((state) => state.addNewGoal);
+    const [newGoal, setNewGoal] = useState({
+        name: "",
+        target_amount: "",
+        current_amount: 0,
+    });
+
+    const handleAdd = async () => {
+        try {
+            const { data } = await axios.post(
+                "http://localhost:3000/goals/add-goal",
+                newGoal
+            );
+            addNewGoal(data);
+        } catch (err) {
+            console.error("Failed to add goal: ", err);
+            alert("Something went wrong");
+        }
+    };
+
     return (
         <>
             {/* Backdrop */}
@@ -47,22 +68,29 @@ export const NewSavingGoal = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
                     <div className="p-6 space-y-6">
                         <div>
                             <label
-                                htmlFor="bill-name"
+                                htmlFor="goal-name"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Goal Name
                             </label>
                             <input
-                                id="bill-name"
+                                id="goal-name"
                                 type="text"
                                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
                                 placeholder="e.g. New laptop"
+                                value={newGoal.name}
+                                onChange={(e) =>
+                                    setNewGoal({
+                                        ...newGoal,
+                                        name: e.target.value,
+                                    })
+                                }
                             />
                         </div>
 
                         <div>
                             <label
-                                htmlFor="bill-amount"
+                                htmlFor="goal-amount"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Goal Amount
@@ -72,11 +100,20 @@ export const NewSavingGoal = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
                                     $
                                 </span>
                                 <input
-                                    id="bill-amount"
+                                    id="goal-amount"
                                     type="number"
                                     step="0.01"
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
                                     placeholder="0.00"
+                                    value={newGoal.amount}
+                                    onChange={(e) =>
+                                        setNewGoal({
+                                            ...newGoal,
+                                            target_amount: Number(
+                                                e.target.value
+                                            ),
+                                        })
+                                    }
                                 />
                             </div>
                         </div>
@@ -92,6 +129,7 @@ export const NewSavingGoal = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
                         </button>
                         <button
                             onClick={() => {
+                                handleAdd();
                                 setIsNewGoalOpen(false);
                             }}
                             className="px-6 py-3 bg-violet-600 text-white font-medium rounded-xl hover:!bg-violet-700 shadow-md transition"
