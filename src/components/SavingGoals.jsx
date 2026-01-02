@@ -1,24 +1,23 @@
-const goals = [
-    { name: "Emergency Fund", current: 5000, target: 10000 },
-    { name: "Vacation", current: 3000, target: 3000 },
-    { name: "New Laptop", current: 800, target: 2000 },
-];
+import { useGoals } from "../stores/goals-store";
 
 export const SavingGoals = () => {
+    const allGoals = useGoals((state) => state.allGoals);
+
     return (
         <div className="space-y-8 p-6">
-            {goals.map((goal) => {
-                const percentage = (goal.current / goal.target) * 100;
+            {allGoals.map((goal) => {
+                const percentage =
+                    (goal.current_amount / goal.target_amount) * 100;
 
                 return (
-                    <div key={goal.name} className="space-y-2">
+                    <div key={goal.name} className="space-y-2 capitalize">
                         <div className="flex justify-between text-sm">
                             <span className="font-medium text-gray-700">
                                 {goal.name}
                             </span>
                             <span className="text-gray-600">
-                                ${goal.current.toLocaleString()} / $
-                                {goal.target.toLocaleString()}
+                                ${goal.current_amount.toLocaleString()} / $
+                                {goal.target_amount.toLocaleString()}
                             </span>
                         </div>
 
