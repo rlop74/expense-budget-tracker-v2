@@ -7,6 +7,8 @@ import { useAppStore } from "../stores/app-store";
 import { useUserStore } from "../stores/user-store";
 import { useBills } from "../stores/bills-store";
 import { fetchBills } from "../services/bills-api";
+import { useGoals } from "../stores/goals-store";
+import { fetchGoals } from "../services/goals-api";
 
 export const useAccountInfo = () => {
     const user = useUserStore((state) => state.user);
@@ -20,11 +22,13 @@ export const useAccountInfo = () => {
     const setAllTransactions = useAppStore((state) => state.setAllTransactions);
     const setAllBills = useBills((state) => state.setAllBills);
     const setTotalBills = useBills((state) => state.setTotalBills);
+    const setAllGoals = useGoals((state) => state.setAllGoals);
 
     const loadTransactions = async () => {
         const savingsData = await fetchSavings(user.id);
         const expenseData = await fetchExpenses(user.id);
         const billsData = await fetchBills();
+        const goalsData = await fetchGoals();
         setAllExpenses(expenseData);
         setTotalExpense(expenseData);
         setTotalSavings(savingsData);
@@ -33,6 +37,7 @@ export const useAccountInfo = () => {
         setLoading(false);
         setAllBills(billsData);
         setTotalBills(billsData);
+        setAllGoals(goalsData);
     };
 
     useEffect(() => {

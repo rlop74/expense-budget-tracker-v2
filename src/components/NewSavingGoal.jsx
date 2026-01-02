@@ -1,10 +1,7 @@
 import axios from "axios";
-import { useBills } from "../stores/bills-store";
+import { useGoals } from "../stores/goals-store";
 
-export const NewSavingGoal = ({
-    isNewGoalOpen,
-    setIsNewGoalOpen
-}) => {
+export const NewSavingGoal = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
     return (
         <>
             {/* Backdrop */}
@@ -83,7 +80,6 @@ export const NewSavingGoal = ({
                                 />
                             </div>
                         </div>
-
                     </div>
 
                     {/* Footer - Actions */}
