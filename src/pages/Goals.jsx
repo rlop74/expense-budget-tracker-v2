@@ -1,15 +1,22 @@
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { NewSavingGoal } from "../components/NewSavingGoal";
+import { NewSavingGoalDialog } from "../components/NewSavingGoalDialog";
 import { useGoals } from "../stores/goals-store";
 import { useAppStore } from "../stores/app-store";
 import axios from "axios";
+import { EditGoalDialog } from "../components/EditGoalDialog";
 
 export const Goals = () => {
     const [isNewGoalOpen, setIsNewGoalOpen] = useState(false);
+    const [isEditGoalOpen, setIsEditGoalOpen] = useState(false);
     const allGoals = useGoals((state) => state.allGoals);
     const setAllGoals = useGoals((state) => state.setAllGoals);
     const loading = useAppStore((state) => state.loading);
+    const [goalToEdit, setGoalToEdit] = useState({
+        id: null,
+        name: "",
+        target_amount: "",
+    });
 
     const handleDelete = async (id) => {
         try {
@@ -35,7 +42,11 @@ export const Goals = () => {
             </div>
 
             {isNewGoalOpen && (
-                <NewSavingGoal setIsNewGoalOpen={setIsNewGoalOpen} />
+                <NewSavingGoalDialog setIsNewGoalOpen={setIsNewGoalOpen} />
+            )}
+
+            {isEditGoalOpen && (
+                <EditGoalDialog goalToEdit={goalToEdit} setGoalToEdit={setGoalToEdit} setIsEditGoalOpen={setIsEditGoalOpen} />
             )}
 
             {loading ? (
@@ -83,6 +94,15 @@ export const Goals = () => {
                                         <Pencil
                                             size={20}
                                             className="text-gray-600 hover:text-violet-500 cursor-pointer"
+                                            onClick={() => {
+                                                setIsEditGoalOpen(true);
+                                                setGoalToEdit({
+                                                    id: goal.id,
+                                                    name: goal.name,
+                                                    target_amount: goal.target_amount,
+                                                    current_amount: goal.current_amount
+                                                })
+                                            }}
                                         />
                                         <Trash2
                                             size={20}

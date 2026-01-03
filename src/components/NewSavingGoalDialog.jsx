@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useGoals } from "../stores/goals-store";
 
-export const NewSavingGoal = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
+export const NewSavingGoalDialog = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
     const addNewGoal = useGoals((state) => state.addNewGoal);
     const [newGoal, setNewGoal] = useState({
         name: "",
