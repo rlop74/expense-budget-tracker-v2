@@ -4,7 +4,7 @@ export const SavingGoals = () => {
     const allGoals = useGoals((state) => state.allGoals);
 
     return (
-        <div className="space-y-8 p-6">
+        <div className="space-y-8 p-6 overflow-y-auto max-h-60">
             {allGoals.map((goal) => {
                 const percentage =
                     (goal.current_amount / goal.target_amount) * 100;
