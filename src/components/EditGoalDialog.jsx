@@ -7,7 +7,7 @@ export const EditGoalDialog = ({
     setGoalToEdit,
     setIsEditGoalOpen,
 }) => {
-    const {allGoals, setAllGoals} = useGoals((state) => state);
+    const { allGoals, setAllGoals } = useGoals((state) => state);
 
     const handleEdit = async () => {
         try {
@@ -43,7 +43,10 @@ export const EditGoalDialog = ({
                     {/* Header */}
                     <div className="flex justify-between items-center p-6 border-b border-gray-200">
                         <h2 className="text-2xl font-bold text-gray-900">
-                            Edit Goal
+                            Edit Goal:{" "}
+                            <span className="capitalize">
+                                {goalToEdit.name}
+                            </span>
                         </h2>
                         <button
                             onClick={() => setIsEditGoalOpen(false)}

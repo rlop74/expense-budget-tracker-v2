@@ -2,10 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useGoals } from "../stores/goals-store";
 
-export const AddGoalAmountDialog = ({
-    goalToIncrease,
-    setIsAddAmountOpen,
-}) => {
+export const AddGoalAmountDialog = ({ goalToIncrease, setIsAddAmountOpen }) => {
     const { allGoals, setAllGoals } = useGoals((state) => state);
     const [newGoalValue, setNewGoalValue] = useState("");
 
@@ -54,7 +51,10 @@ export const AddGoalAmountDialog = ({
                     {/* Header */}
                     <div className="flex justify-between items-center p-6 border-b border-gray-200">
                         <h2 className="text-2xl font-bold text-gray-900">
-                            Add to Goal
+                            Add to Goal:{" "}
+                            <span className="capitalize">
+                                {goalToIncrease.name}
+                            </span>
                         </h2>
                         <button
                             onClick={() => setIsAddAmountOpen(false)}
