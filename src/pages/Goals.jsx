@@ -1,6 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { NewSavingGoalDialog } from "../components/NewSavingGoalDialog";
+import { Dialog } from "../components/Dialog";
 import { useGoals } from "../stores/goals-store";
 import { useAppStore } from "../stores/app-store";
 import axios from "axios";
@@ -8,12 +8,19 @@ import { EditGoalDialog } from "../components/EditGoalDialog";
 import { AddGoalAmountDialog } from "../components/AddGoalAmountDialog";
 
 export const Goals = () => {
+    // modal states
     const [isNewGoalOpen, setIsNewGoalOpen] = useState(false);
     const [isEditGoalOpen, setIsEditGoalOpen] = useState(false);
     const [isAddAmountOpen, setIsAddAmountOpen] = useState(false);
+
+    // store functions and variables
     const allGoals = useGoals((state) => state.allGoals);
     const setAllGoals = useGoals((state) => state.setAllGoals);
+    const addNewGoal = useGoals((state) => state.addNewGoal);
     const loading = useAppStore((state) => state.loading);
+
+    // empty states for adding and editing
+    const [newGoal, setNewGoal] = useState({});
     const [goalToEdit, setGoalToEdit] = useState({
         id: null,
         name: "",
@@ -22,6 +29,45 @@ export const Goals = () => {
     const [goalToIncrease, setGoalToIncrease] = useState({
         id: null,
     });
+
+    // handle functions
+    const handleAdd = async () => {
+        try {
+            const { data } = await axios.post(
+                `http://localhost:3000/goals/add-goal`,
+                newGoal
+            );
+
+            // update store/UI
+            addNewGoal(data);
+
+            // clear state and close modal
+            setIsNewGoalOpen(false);
+            setNewGoal({});
+        } catch (err) {
+            console.error("Failed to add goal: ", err);
+            alert("Something went wrong");
+        }
+    };
+
+    const handleEdit = async () => {
+        try {
+            await axios.patch(
+                `http://localhost:3000/goals/edit-goal/${goalToEdit.id}`,
+                goalToEdit
+            );
+            const updatedGoals = allGoals.filter(
+                (goal) => goal.id !== goalToEdit.id
+            );
+
+            // update store/UI and close modal
+            setAllGoals([...updatedGoals, goalToEdit]);
+            setIsEditGoalOpen(false);
+        } catch (err) {
+            console.error("Failed to edit goal: ", err);
+            alert("Something went wrong");
+        }
+    };
 
     const handleDelete = async (id) => {
         try {
@@ -47,14 +93,31 @@ export const Goals = () => {
             </div>
 
             {isNewGoalOpen && (
-                <NewSavingGoalDialog setIsNewGoalOpen={setIsNewGoalOpen} />
+                <Dialog
+                    title="Add New Goal"
+                    setIsOpen={setIsNewGoalOpen}
+                    namePlaceholder="e.g. New laptop"
+                    amountPlaceholder="0.00"
+                    nameValue={newGoal.name}
+                    amountValue={newGoal.target_amount}
+                    state={newGoal}
+                    setState={setNewGoal}
+                    handleFunction={handleAdd}
+                />
             )}
 
+            {/* EditGoalDialog.jsx */}
             {isEditGoalOpen && (
-                <EditGoalDialog
-                    goalToEdit={goalToEdit}
-                    setGoalToEdit={setGoalToEdit}
-                    setIsEditGoalOpen={setIsEditGoalOpen}
+                <Dialog
+                    title="Edit Goal"
+                    setIsOpen={setIsEditGoalOpen}
+                    namePlaceholder="e.g. New laptop"
+                    amountPlaceholder="0.00"
+                    nameValue={goalToEdit.name}
+                    amountValue={goalToEdit.target_amount}
+                    state={goalToEdit}
+                    setState={setGoalToEdit}
+                    handleFunction={handleEdit}
                 />
             )}
 

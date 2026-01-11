@@ -1,30 +1,20 @@
-import { useState } from "react";
-import axios from "axios";
-import { useGoals } from "../stores/goals-store";
-
-export const NewSavingGoalDialog = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
-    const addNewGoal = useGoals((state) => state.addNewGoal);
-    const [newGoal, setNewGoal] = useState({});
-
-    const handleAdd = async () => {
-        try {
-            const { data } = await axios.post(
-                "http://localhost:3000/goals/add-goal",
-                newGoal
-            );
-            addNewGoal(data);
-        } catch (err) {
-            console.error("Failed to add goal: ", err);
-            alert("Something went wrong");
-        }
-    };
-
+export const Dialog = ({
+    title,
+    setIsOpen,
+    namePlaceholder,
+    amountPlaceholder,
+    nameValue,
+    amountValue,
+    handleFunction,
+    state,
+    setState,
+}) => {
     return (
         <>
             {/* Backdrop */}
             <div
                 className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
-                onClick={() => setIsNewGoalOpen(false)} // Close when clicking outside
+                onClick={() => setIsOpen(false)} // Close when clicking outside
             />
 
             {/* Modal */}
@@ -37,10 +27,10 @@ export const NewSavingGoalDialog = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
                     {/* Header */}
                     <div className="flex justify-between items-center p-6 border-b border-gray-200">
                         <h2 className="text-2xl font-bold text-gray-900">
-                            Add New Goal
+                            {title}
                         </h2>
                         <button
-                            onClick={() => setIsNewGoalOpen(false)}
+                            onClick={() => setIsOpen(false)}
                             className="p-2 rounded-lg hover:!bg-gray-100 transition-colors"
                             aria-label="Close edit modal"
                         >
@@ -73,11 +63,11 @@ export const NewSavingGoalDialog = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
                                 id="goal-name"
                                 type="text"
                                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
-                                placeholder="e.g. New laptop"
-                                value={newGoal.name}
+                                placeholder={namePlaceholder}
+                                value={nameValue}
                                 onChange={(e) =>
-                                    setNewGoal({
-                                        ...newGoal,
+                                    setState({
+                                        ...state,
                                         name: e.target.value,
                                     })
                                 }
@@ -100,11 +90,11 @@ export const NewSavingGoalDialog = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
                                     type="number"
                                     step="0.01"
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
-                                    placeholder="0.00"
-                                    value={newGoal.amount}
+                                    placeholder={amountPlaceholder}
+                                    value={amountValue}
                                     onChange={(e) =>
-                                        setNewGoal({
-                                            ...newGoal,
+                                        setState({
+                                            ...state,
                                             target_amount: Number(
                                                 e.target.value
                                             ),
@@ -118,16 +108,13 @@ export const NewSavingGoalDialog = ({ isNewGoalOpen, setIsNewGoalOpen }) => {
                     {/* Footer - Actions */}
                     <div className="flex justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
                         <button
-                            onClick={() => setIsNewGoalOpen(false)}
+                            onClick={() => setIsOpen(false)}
                             className="px-6 py-3 text-gray-700 font-medium rounded-xl hover:!bg-gray-200 hover:!text-gray-700 transition"
                         >
                             Cancel
                         </button>
                         <button
-                            onClick={() => {
-                                handleAdd();
-                                setIsNewGoalOpen(false);
-                            }}
+                            onClick={handleFunction}
                             className="px-6 py-3 bg-violet-600 text-white font-medium rounded-xl hover:!bg-violet-700 shadow-md transition"
                         >
                             Save Changes
