@@ -19,4 +19,12 @@ export const useBills = create((set) => ({
             allBills: [...state.allBills, newBillObj],
             totalBill: Number(state.totalBill) + Number(newBillObj.amount),
         })),
+    updateBill: (updatedBill) => {
+        set((state) => ({
+            allBills: [
+                ...state.allBills.filter((bill) => bill.id !== updatedBill.id),
+                updatedBill,
+            ],
+        }));
+    },
 }));

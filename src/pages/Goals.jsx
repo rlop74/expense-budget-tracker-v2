@@ -4,8 +4,6 @@ import { Dialog } from "../components/Dialog";
 import { useGoals } from "../stores/goals-store";
 import { useAppStore } from "../stores/app-store";
 import axios from "axios";
-import { EditGoalDialog } from "../components/EditGoalDialog";
-import { AddGoalAmountDialog } from "../components/AddGoalAmountDialog";
 
 export const Goals = () => {
     // modal states
@@ -29,9 +27,10 @@ export const Goals = () => {
     const [goalToIncrease, setGoalToIncrease] = useState({
         id: null,
     });
+    const [addGoalAmount, setAddGoalAmount] = useState("");
 
     // handle functions
-    const handleAdd = async () => {
+    const handleAddGoal = async () => {
         try {
             const { data } = await axios.post(
                 `http://localhost:3000/goals/add-goal`,
@@ -42,8 +41,8 @@ export const Goals = () => {
             addNewGoal(data);
 
             // clear state and close modal
-            setIsNewGoalOpen(false);
             setNewGoal({});
+            setIsNewGoalOpen(false);
         } catch (err) {
             console.error("Failed to add goal: ", err);
             alert("Something went wrong");
@@ -80,6 +79,39 @@ export const Goals = () => {
         }
     };
 
+    const handleAddGoalAmount = async () => {
+        try {
+            await axios.patch(
+                `http://localhost:3000/goals/edit-goal/${goalToIncrease.id}`,
+                {
+                    ...goalToIncrease,
+                    current_amount:
+                        goalToIncrease.current_amount + Number(addGoalAmount),
+                }
+            );
+
+            // update UI/store
+            const updatedGoals = allGoals.filter(
+                (goal) => goal.id !== goalToIncrease.id
+            );
+            setAllGoals([
+                ...updatedGoals,
+                {
+                    ...goalToIncrease,
+                    current_amount:
+                        goalToIncrease.current_amount + Number(addGoalAmount),
+                },
+            ]);
+
+            // clear input fields and close modal
+            setAddGoalAmount("")
+            setIsAddAmountOpen(false);
+        } catch (err) {
+            console.error("Failed to edit goal: ", err);
+            alert("Something went wrong");
+        }
+    };
+
     return (
         <div className="p-8">
             <div className="flex justify-between items-center mb-8">
@@ -96,37 +128,159 @@ export const Goals = () => {
                 <Dialog
                     title="Add New Goal"
                     setIsOpen={setIsNewGoalOpen}
-                    namePlaceholder="e.g. New laptop"
-                    amountPlaceholder="0.00"
-                    nameValue={newGoal.name}
-                    amountValue={newGoal.target_amount}
-                    state={newGoal}
-                    setState={setNewGoal}
-                    handleFunction={handleAdd}
-                />
+                    handleFunction={handleAddGoal}
+                >
+                    <div className="p-6 space-y-6">
+                        <div>
+                            <label
+                                htmlFor="goal-name"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Goal Name
+                            </label>
+                            <input
+                                id="goal-name"
+                                type="text"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                                placeholder="e.g. New laptop"
+                                value={newGoal.name}
+                                onChange={(e) =>
+                                    setNewGoal({
+                                        ...newGoal,
+                                        name: e.target.value,
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="goal-amount"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Goal Amount
+                            </label>
+                            <div className="relative">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">
+                                    $
+                                </span>
+                                <input
+                                    id="goal-amount"
+                                    type="number"
+                                    step="0.01"
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                                    placeholder="0.00"
+                                    value={newGoal.target_amount}
+                                    onChange={(e) =>
+                                        setNewGoal({
+                                            ...newGoal,
+                                            target_amount: Number(
+                                                e.target.value
+                                            ),
+                                        })
+                                    }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Dialog>
             )}
 
-            {/* EditGoalDialog.jsx */}
             {isEditGoalOpen && (
                 <Dialog
-                    title="Edit Goal"
+                    title={`Edit Goal: ${goalToEdit.name}`}
                     setIsOpen={setIsEditGoalOpen}
-                    namePlaceholder="e.g. New laptop"
-                    amountPlaceholder="0.00"
-                    nameValue={goalToEdit.name}
-                    amountValue={goalToEdit.target_amount}
-                    state={goalToEdit}
-                    setState={setGoalToEdit}
                     handleFunction={handleEdit}
-                />
+                >
+                    <div className="p-6 space-y-6">
+                        <div>
+                            <label
+                                htmlFor="goal-name"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Goal Name
+                            </label>
+                            <input
+                                id="goal-name"
+                                type="text"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                                placeholder="e.g. New laptop"
+                                value={goalToEdit.name}
+                                onChange={(e) =>
+                                    setGoalToEdit({
+                                        ...goalToEdit,
+                                        name: e.target.value,
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="goal-amount"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Goal Amount
+                            </label>
+                            <div className="relative">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">
+                                    $
+                                </span>
+                                <input
+                                    id="goal-amount"
+                                    type="number"
+                                    step="0.01"
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                                    placeholder="0.00"
+                                    value={goalToEdit.target_amount}
+                                    onChange={(e) =>
+                                        setGoalToEdit({
+                                            ...goalToEdit,
+                                            target_amount: Number(
+                                                e.target.value
+                                            ),
+                                        })
+                                    }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Dialog>
             )}
 
             {isAddAmountOpen && (
-                <AddGoalAmountDialog
-                    goalToIncrease={goalToIncrease}
-                    setGoalToIncrease={setGoalToIncrease}
-                    setIsAddAmountOpen={setIsAddAmountOpen}
-                />
+                <Dialog
+                    title={`Add to Goal: ${goalToIncrease.name}`}
+                    setIsOpen={setIsAddAmountOpen}
+                    handleFunction={handleAddGoalAmount}
+                >
+                    <div className="p-6 space-y-6">
+                        <div>
+                            <label
+                                htmlFor="goal-amount"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Amount to add
+                            </label>
+                            <div className="relative">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">
+                                    $
+                                </span>
+                                <input
+                                    id="goal-amount"
+                                    type="number"
+                                    step="0.01"
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
+                                    placeholder="0.00"
+                                    value={addGoalAmount}
+                                    onChange={(e) =>
+                                        setAddGoalAmount(e.target.value)
+                                    }
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Dialog>
             )}
 
             {loading ? (

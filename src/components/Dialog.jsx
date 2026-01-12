@@ -1,13 +1,8 @@
 export const Dialog = ({
     title,
     setIsOpen,
-    namePlaceholder,
-    amountPlaceholder,
-    nameValue,
-    amountValue,
     handleFunction,
-    state,
-    setState,
+    children,
 }) => {
     return (
         <>
@@ -26,7 +21,7 @@ export const Dialog = ({
                 >
                     {/* Header */}
                     <div className="flex justify-between items-center p-6 border-b border-gray-200">
-                        <h2 className="text-2xl font-bold text-gray-900">
+                        <h2 className="text-2xl font-bold text-gray-900 capitalize">
                             {title}
                         </h2>
                         <button
@@ -51,59 +46,7 @@ export const Dialog = ({
                     </div>
 
                     {/* Body - Form */}
-                    <div className="p-6 space-y-6">
-                        <div>
-                            <label
-                                htmlFor="goal-name"
-                                className="block text-sm font-medium text-gray-700 mb-2"
-                            >
-                                Goal Name
-                            </label>
-                            <input
-                                id="goal-name"
-                                type="text"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
-                                placeholder={namePlaceholder}
-                                value={nameValue}
-                                onChange={(e) =>
-                                    setState({
-                                        ...state,
-                                        name: e.target.value,
-                                    })
-                                }
-                            />
-                        </div>
-
-                        <div>
-                            <label
-                                htmlFor="goal-amount"
-                                className="block text-sm font-medium text-gray-700 mb-2"
-                            >
-                                Goal Amount
-                            </label>
-                            <div className="relative">
-                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">
-                                    $
-                                </span>
-                                <input
-                                    id="goal-amount"
-                                    type="number"
-                                    step="0.01"
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition"
-                                    placeholder={amountPlaceholder}
-                                    value={amountValue}
-                                    onChange={(e) =>
-                                        setState({
-                                            ...state,
-                                            target_amount: Number(
-                                                e.target.value
-                                            ),
-                                        })
-                                    }
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    {children}
 
                     {/* Footer - Actions */}
                     <div className="flex justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
