@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAccountInfo } from "../hooks/getAccountInfo";
 import { useBills } from "../stores/bills-store";
 import { Pencil, Trash2 } from "lucide-react";
-import { EditBillDialog } from "../components/EditBillDialog";
 import axios from "axios";
 import { addBills } from "../services/bills-api";
 import { Dialog } from "../components/Dialog";
