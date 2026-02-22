@@ -1,3 +1,10 @@
+/**
+ * @param transactions:[]
+ * @description 
+ * this function takes in transactions and returns an object with the key as date (month year)
+ * and a value of object (date, month, year, expenses, savings)
+ * @returns { "Aug 2025": { date: "Aug 2025", month: "Aug", year: 2025, expenses: 0, savings: 0 }}
+ */
 export const groupTransactionsByMonth = (transactions) => {
     // loop through every transaction via reduce
     return transactions.reduce((acc, transaction) => {
@@ -11,9 +18,6 @@ export const groupTransactionsByMonth = (transactions) => {
 
         // initialize if it doesn't exist
         // "Aug 2025" doesn't exist, create it
-        // acc = {
-        //   "Aug 2025": { date: "Aug 2025", month: "Aug", year: 2025, expenses: 0, savings: 0 }
-        // }
         if (!acc[date]) {
             acc[date] = {
                 date: date,
